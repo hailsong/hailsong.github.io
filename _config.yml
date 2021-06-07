@@ -18,9 +18,9 @@ minimal_mistakes_skin    : "mint" # "air", "aqua", "contrast", "dark", "dirt", "
 
 # Site Settings
 locale                   : "ko-KR"
-title                    : "언젠가는 테크블로그"
+title                    : "유사 테크 블로그"
 title_separator          : "&#124"
-subtitle                 : "TEST"
+subtitle                 : "그래도 뭐라도 남겨야지!"
 name                     : "Hail Song"
 description              : "Computer Vision, Machine Learning Engineer. Interested in Auto-trading and Music Composition"
 url                      : "https://hailsong.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
@@ -97,14 +97,14 @@ analytics:
 # Site Author
 author:
   name             : "Hail Song"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "뭐라도 남겨야 방향성이 잡히는 기분이 들어서"
+  avatar           : "/assets/images/avatar.png"
+  bio              : "Computer Vision, Machine Learning Engineer. Interested in Auto-trading and Music Composition"
   location         : "Seoul, Republic of Korea"
   email            : "hailsong@yonsei.ac.kr"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      # url: "mailto:your.name@email.com"
+      #url: "hailsong@yonsei.ac.kr"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       # url: "https://your-website.com"
@@ -116,10 +116,10 @@ author:
       # url: "https://facebook.com/"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
+      url: "https://github.com/hailsong"
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
-      # url: "https://instagram.com/"
+      url: "https://instagram.com/song.ha12"
 
 # Site Footer
 footer:
