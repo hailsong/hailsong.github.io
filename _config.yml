@@ -120,6 +120,9 @@ author:
     - label: "Instagram"
       icon: "fab fa-fw fa-instagram"
       url: "https://instagram.com/song.ha12"
+    - label: "Youtube"
+      icon: "fab fa-fw fa-youtube"
+      url: "https://www.youtube.com/watch?v=hmRNMZlz974"
 
 # Site Footer
 footer:
