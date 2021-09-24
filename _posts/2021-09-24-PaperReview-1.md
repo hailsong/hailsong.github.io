@@ -4,7 +4,7 @@ title:  "논문 읽기(1) - Body2Hands: Learning to Infer 3D Hands from Conversa
 excerpt: "논문 읽기,  Body2Hands: Learning to Infer 3D Hands from Conversational Gesture Body Dynamics (CVPR 2021)"
 
 categories:
-  - 논문 리뷰 - Hand Gesture
+  - paper review
 tags:
   - deep learning
   - hand gesture
@@ -29,6 +29,7 @@ last_modified_at: 2021-09-24T012:06:00-05:00
 
 ref : http://people.eecs.berkeley.edu/~evonne_ng/projects/body2hands/
 
-hand gesture를 분석할 때의 주된 세 가지 challenges는 occlusions, motion blur, low resolution입니다. 확실한 이미지를 얻을 수 없는 상황에서 손 외의 body pose가 hand pose와 연관되어 있다는 직관에서 시작한 논문으로 GAN을
+hand gesture를 분석할 때의 주된 세 가지 challenges는 occlusions, motion blur, low resolution입니다. 확실한 이미지를 얻을 수 없는 상황에서 손 외의 body pose가 hand pose와 연관되어 있다는 직관에서 시작한 논문으로 GAN을 이용해 몸의 포즈만으로 손의 모양을 만들어냅니다. (optional하게 손 이미지를 받을 수도 있습니다.) 특히 손의 이미지가 확실하게 잡히지 않는 상황에서 body2hands는 그 진가를 발휘하게 됩니다.
 
-![image-20210924172929222](C:\Users\user\AppData\Roaming\Typora\typora-user-images\image-20210924172929222.png)
+<center><img src="\assets\img\paperreview\1.png" width="80%" height="80%"></center>
+
