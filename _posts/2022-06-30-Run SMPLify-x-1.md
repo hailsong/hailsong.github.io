@@ -19,9 +19,10 @@ last_modified_at: 2022-06-30T012:06:01-05:00
 
 개발환경은 ubuntu18.04, cuda 10.0 이었다.
 
-https://github.com/vchoutas/smplify-x/issues/3#issuecomment-507682801
+[https://github.com/vchoutas/smplify-x/issues/3#issuecomment-507682801]: https://github.com/vchoutas/smplify-x/issues/3#issuecomment-507682801
+[https://colab.research.google.com/github/sergeyprokudin/smplpix/blob/main/colab_notebooks/Convert_Video_to_SMPLpix_Dataset.ipynb]: https://colab.research.google.com/github/sergeyprokudin/smplpix/blob/main/colab_notebooks/Convert_Video_to_SMPLpix_Dataset.ipynb
 
-https://colab.research.google.com/github/sergeyprokudin/smplpix/blob/main/colab_notebooks/Convert_Video_to_SMPLpix_Dataset.ipynb
+
 
 첫번째 링크에서 conda로 환경구성하는데에 오류가 있다는 이슈가 있다는 이야기가 있어서 따라 해봤는데 결과가 좋지 않았다.
 
