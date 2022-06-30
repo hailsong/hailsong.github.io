@@ -57,7 +57,7 @@ ffmpeg를 이용해 쉽게 비디오에서 프레임들을 추출할 수 있었�
 
 참조 : ffmpeg documentation
 
-https://ffmpeg.org/ffmpeg.html
+[https://ffmpeg.org/ffmpeg.html](https://ffmpeg.org/ffmpeg.html)
 
 
 
@@ -138,7 +138,7 @@ smplify-x / dependency 설치과정
 
 
 
-코드 실행시키기 전에 smplify model하고 vposer 파일을 넣어줘야한다. smplify 공식 사이트에서 받을 수 있다. https://smpl-x.is.tue.mpg.de/
+코드 실행시키기 전에 smplify model하고 vposer 파일을 넣어줘야한다. smplify 공식 사이트에서 받을 수 있다. [smplify-x project page](https://smpl-x.is.tue.mpg.de/)
 
 
 
@@ -156,11 +156,11 @@ python smplifyx/main.py --config cfg_files/fit_smplx.yaml --data_folder ./smplif
 
 dotmap 관련
 
-https://copypaste.guru/WhereIsMyPythonModule/how-to-fix-modulenotfounderror-no-module-named-dotmap
+[https://copypaste.guru/WhereIsMyPythonModule/how-to-fix-modulenotfounderror-no-module-named-dotmap](https://copypaste.guru/WhereIsMyPythonModule/how-to-fix-modulenotfounderror-no-module-named-dotmap)
 
 torch penetration 설정
 
-https://github.com/vchoutas/smplify-x/issues/9
+[https://github.com/vchoutas/smplify-x/issues/9](https://github.com/vchoutas/smplify-x/issues/9)
 
 issue에서는 torch-mesh-isect를 따로 설치하라고 했으나 아래 방법처럼 간단하게 penetration 옵션을 끄는걸로 타협
 
@@ -168,11 +168,11 @@ issue에서는 torch-mesh-isect를 따로 설치하라고 했으나 아래 방�
 
 torch 내부 subtract 표기 문제
 
-https://stackoverflow.com/questions/65637222/runtimeerror-subtraction-the-operator-with-a-bool-tensor-is-not-supported
+[https://stackoverflow.com/questions/65637222/runtimeerror-subtraction-the-operator-with-a-bool-tensor-is-not-supported](https://stackoverflow.com/questions/65637222/runtimeerror-subtraction-the-operator-with-a-bool-tensor-is-not-supported)
 
 Library "GLU" not found.
 
-https://data-newbie.tistory.com/710
+[https://data-newbie.tistory.com/710](https://data-newbie.tistory.com/710)
 
 Display 관련 오류?
 
@@ -204,7 +204,7 @@ meshes에는 각 프레임별로 .obj 결과로, results에는 .pkl파일로 결
 
 하지만 blur가 있거나 꼬인 위치에서는 잘 맞지 않는 모습을 보였다.
 
-<center><img src="\assets\img\smplify-x1\9.png" width="80%" height="80%"></center>
+<center><img src="\assets\img\smplify-x1\10.png" width="80%" height="80%"></center>
 
 
 
@@ -228,13 +228,13 @@ mesh output을 겹쳐서 render해준 사진도 나왔으면 좋았겠는데 하
 
 ### Reference
 
-SMPLify-X Github : https://github.com/vchoutas/smplify-x#visualizing-results
+[SMPLify-X Github](https://github.com/vchoutas/smplify-x#visualizing-results)
 
-SMPLify-X Paper : https://ps.is.tuebingen.mpg.de/uploads_file/attachment/attachment/497/SMPL-X.pdf
+[SMPLify-X Paper](https://ps.is.tuebingen.mpg.de/uploads_file/attachment/attachment/497/SMPL-X.pdf) 
 
-SMPLify-X Project Page : https://smpl-x.is.tue.mpg.de/
+[SMPLify-X Project Page ](https://smpl-x.is.tue.mpg.de/)
 
-SMPLpix Github : https://github.com/sergeyprokudin/smplpix
+[SMPLpix Github](https://github.com/sergeyprokudin/smplpix)
 
 SMPLpix에서 제공해준 notebook파일로부터 정말 많은 도움을 받았다!
 
