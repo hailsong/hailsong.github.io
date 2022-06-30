@@ -19,8 +19,11 @@ last_modified_at: 2022-06-30T012:06:01-05:00
 
 개발환경은 ubuntu18.04, cuda 10.0 이었다.
 
-[https://github.com/vchoutas/smplify-x/issues/3#issuecomment-507682801]: https://github.com/vchoutas/smplify-x/issues/3#issuecomment-507682801
-[https://colab.research.google.com/github/sergeyprokudin/smplpix/blob/main/colab_notebooks/Convert_Video_to_SMPLpix_Dataset.ipynb]: https://colab.research.google.com/github/sergeyprokudin/smplpix/blob/main/colab_notebooks/Convert_Video_to_SMPLpix_Dataset.ipynb
+[https://github.com/vchoutas/smplify-x/issues/3#issuecomment-507682801](https://github.com/vchoutas/smplify-x/issues/3#issuecomment-507682801)
+
+
+
+[https://colab.research.google.com/github/sergeyprokudin/smplpix/blob/main/colab_notebooks/Convert_Video_to_SMPLpix_Dataset.ipynb](https://colab.research.google.com/github/sergeyprokudin/smplpix/blob/main/colab_notebooks/Convert_Video_to_SMPLpix_Dataset.ipynb)
 
 
 
