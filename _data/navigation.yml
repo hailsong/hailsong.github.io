@@ -1,12 +1,14 @@
 # main links
 main:
+  - title: "Curriculum Vitae"
+    url: /Curriculum Vitae/
+  - title: "Publications"
+    url: /publications/
   - title: "Categories"
     url: /categories/
   - title: "Tags"
     url: /tags/
-  - title: "About"
-    url: /about/
-  - title: "연도별 포스트"
+  - title: "Posts"
     url: /posts/
   # - title: "Quick-Start Guide"
   #  url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
