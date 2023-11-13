@@ -3,8 +3,16 @@ permalink: /Curriculum Vitae/
 title: "Curriculum Vitae"
 ---
 
+Please refer [LinkedIn](https://www.linkedin.com/in/hailsong/)
 
 
-Contact : hail96@kaist.ac.kr
+## About
+I am a Ph.D. student at KAIST(Korea Advanced Institute of Science and Technology) UVR lab in Daejeon, Korea. Currently I am supervised by Prof. Woontack Woo. My research interests include Generating 3D Human Avatar, XR, Computer Graphics, Computer Vision. I'm open to collaborative works or discussions. Feel free to contact me!
 
-[Youtube](https://www.youtube.com/watch?v=hmRNMZlz974)
+Contact : hail96@kaist.ac.kr  
+LinkedIn : [https://www.linkedin.com/in/hailsong/](https://www.linkedin.com/in/hailsong/)
+
+## Education
+- Ph.D., [Graduate School of Culture Technology](https://ct.kaist.ac.kr/), [KAIST](https://www.kaist.ac.kr/), (Mar 2024 ~ )
+- M.S., [Graduate School of Culture Technology](https://ct.kaist.ac.kr/), [KAIST](https://www.kaist.ac.kr/), (Mar 2022 ~ Feb 2024)
+- B.S., [Mechanical Engineering](https://me.yonsei.ac.kr/me/index.do), Yonsei University, (Mar 2015 ~ Feb 2021)
