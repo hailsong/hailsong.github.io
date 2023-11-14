@@ -3,6 +3,7 @@ permalink: /Curriculum Vitae/
 title: "Curriculum Vitae"
 ---
 
+Full CV will be updated soon!
 Please refer [LinkedIn](https://www.linkedin.com/in/hailsong/)
 
 
@@ -11,6 +12,9 @@ I am a Ph.D. student at KAIST(Korea Advanced Institute of Science and Technology
 
 Contact : hail96@kaist.ac.kr  
 LinkedIn : [https://www.linkedin.com/in/hailsong/](https://www.linkedin.com/in/hailsong/)
+
+## Publication
+Please refer [Publication pages](https://hailsong.github.io/publications/)
 
 ## Education
 - Ph.D., [Graduate School of Culture Technology](https://ct.kaist.ac.kr/), [KAIST](https://www.kaist.ac.kr/), (Mar 2024 ~ )
