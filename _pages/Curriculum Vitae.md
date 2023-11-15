@@ -13,7 +13,7 @@ I am a Ph.D. student at KAIST(Korea Advanced Institute of Science and Technology
 Contact : hail96@kaist.ac.kr  
 LinkedIn : [https://www.linkedin.com/in/hailsong/](https://www.linkedin.com/in/hailsong/)
 
-## Publication
+## Publications
 Please refer [Publication pages](https://hailsong.github.io/publications/)
 
 ## Education

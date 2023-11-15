@@ -283,6 +283,16 @@ Navigation in SIBR Viewers
 *The SIBR interface provides several methods of navigating the scene. By default, you will be started with an FPS navigator, which you can control with W, A, S, D, Q, E for camera translation and I, K, J, L, U, O for rotation. Alternatively, you may want to use a Trackball-style navigator (select from the floating menu). You can also snap to a camera from the data set with the Snap to button or find the closest camera with Snap to closest. The floating menues also allow you to change the navigation speed. You can use the Scaling Modifier to control the size of the displayed Gaussians, or show the initial point cloud.*
 
 
+
+cf) tensorboard 사용
+```
+tensorboard --logdir=./output/{# training folder...}
+# ex)
+# tensorboard --logdir=./output/7ef23932-f
+```
+output 폴더에 로그가 생겨서 텐서보드 쓰려면 디렉토리 이런식으로 설정해줘야 합니다.
+
+
 다음 포스트에서는 학습시킨 3DGS를 유니티 상에서, 그리고 VR HMD인 Meta Quest 3에서 렌더링하는 과정을 공유해보도록 하겠습니다! 
 
 ---------
