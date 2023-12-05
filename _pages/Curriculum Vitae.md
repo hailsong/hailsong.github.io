@@ -3,8 +3,9 @@ permalink: /Curriculum Vitae/
 title: "Curriculum Vitae"
 ---
 
-Full CV will be updated soon!
-Please refer [LinkedIn](https://www.linkedin.com/in/hailsong/)
+[One Page CV](../assets/pdf/HailSong_1page_CV.pdf)
+
+For the detail, please refer [LinkedIn](https://www.linkedin.com/in/hailsong/)
 
 
 ## About
