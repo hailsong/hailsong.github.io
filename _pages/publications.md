@@ -25,7 +25,7 @@ Abstract : *We present a novel method for avatar body generation that cumulative
 ## Effects of Different Facial Blendshape Combinations on Social Presence for Avatar-mediated Mixed Reality Remote Communication (IEEE ISMAR 2023 Poster)  
 Seoyoung Kang, **Hail Song**, Boram Yoon, Kangsoo Kim, Woontack Woo  
 
-Paper(Will be uploaded in IEEE Digital Library)  
+[Paper](https://ieeexplore.ieee.org/abstract/document/10322178)
 
 Abstract : *Despite the significance of facial expressions in avatar-mediated communication, there has been limited research on efficiently representing avatar facial expressions, encompassing both computational and communicative considerations. To address this, we first conduct an analysis of facial blendshapes, where we select those based on activation variance during natural conversations and their significance in conveying emotions. From two distinct selection approaches, we then investigate the impacts of four different facial blendshape combinations on social presence and communication quality in varied avatar-mediated remote communication contexts: informative speech and emotional conversation. The results of our formal study with 32 participants highlight the importance of emotion-based blendshapes, indicating that the emotionally essential blendshapes combination achieves comparable levels of social presence, facial animation realism, communication quality, and synchrony of communication cues compared to using the full set of blendshapes. Our findings emphasize the potential of a cost-efficient method for avatar facial control, enabling effective emotional expressions while reducing computational resources, ultimately resulting in more affordable and efficient avatar-mediated communication experiences.*
 
