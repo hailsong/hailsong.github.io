@@ -2,7 +2,19 @@
 permalink: /publications/
 title: "Publications"
 ---
+# 2024
 
+---
+
+## Toward Realistic 3D Avatar Generation with Dynamic 3D Gaussian Splatting for AR/VR Communication (IEEE VRW, Best DC Paper Awards)
+
+**Hail Song**
+
+
+
+[Paper](../assets/pdf/VR2024_DC.pdf)
+
+Abstact : *Realistic avatars are fundamental for immersive experiences in Augmented Reality (AR) and Virtual Reality (VR) environments. In this work, we introduce a novel approach for avatar generation, combining 3D Gaussian Splatting with the parametric body model, SMPL. This methodology overcomes the inefficiencies of traditional image/video-based avatar creation, which is often slow and requires high computing resources. The integration of 3D Gaussian Splatting for representing human avatar offers realistic and real-time rendering for AR/VR applications. We also conducted preliminary tests to verify the quality of avatar representation using 3D Gaussian Splatting. These tests, displayed alongside outcomes from existing methods, demonstrate the potential of this research to significantly contribute to the creation of realistic avatars in the future. Additionally, several key discussions are presented, essential for developing and evaluating the system and providing valuable insights for future research.*
 
 -----
 # 2023
