@@ -3,10 +3,16 @@ permalink: /Curriculum Vitae/
 title: "Curriculum Vitae"
 ---
 
-[One Page CV](../assets/pdf/HailSong_1page_CV.pdf)
+
+
+<iframe src="/assets/pdf/HailSong_CV.pdf" width="100%" height="800px" style="border: none;"></iframe>
+
+> You can also [download the PDF here](/assets/pdf/HailSong_CV.pdf).
+
 
 For the detail, please refer [LinkedIn](https://www.linkedin.com/in/hailsong/)
 
+---
 
 ## About
 I am a Ph.D. student at KAIST(Korea Advanced Institute of Science and Technology) UVR lab in Daejeon, Korea. Currently I am supervised by Prof. Woontack Woo. My research interests include Generating 3D Human Avatar, XR, Computer Graphics, Computer Vision. I'm open to collaborative works or discussions. Feel free to contact me!
