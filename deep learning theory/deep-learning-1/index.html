@@ -1,0 +1,799 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.23.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>시계열 처리 신경망 (1) - RNN &amp;#124 Hail Song’s Blog</title>
+<meta name="description" content="RNN의 구조와 원리">
+
+
+  <meta name="author" content="Hail Song">
+  
+  <meta property="article:author" content="Hail Song">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Hail Song's Blog">
+<meta property="og:title" content="시계열 처리 신경망 (1) - RNN">
+<meta property="og:url" content="https://hailsong.github.io/deep%20learning%20theory/deep-learning-1/">
+
+
+  <meta property="og:description" content="RNN의 구조와 원리">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-06-15T00:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2021-06-15T13:06:00+00:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://hailsong.github.io/deep%20learning%20theory/deep-learning-1/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Hail Song",
+      "url": "https://hailsong.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Hail Song's Blog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Hail Song's Blog
+          <span class="site-subtitle">hail96@kaist.ac.kr</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/Curriculum%20Vitae/">Curriculum Vitae</a>
+            </li><li class="masthead__menu-item">
+              <a href="/publications/">Publications</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://hailsong.github.io/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#deep-learning-theory" itemprop="item"><span itemprop="name">Deep learning theory</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">시계열 처리 신경망 (1) - RNN</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatar.png" alt="Hail Song" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Hail Song</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Ph.D. Candidate at KAIST UVRlab, XR / Computer Vision / Computer Graphics Researcher</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Daejeon, Republic of Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+            <li><a href="https://uvrlab.org/" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">UVRlab</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/hailsong" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/hailsong" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/song.ha12" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+          
+            <li><a href="https://www.youtube.com/watch?v=hmRNMZlz974" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-youtube" aria-hidden="true"></i><span class="label">Youtube</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:hail96@kaist.ac.kr">
+            <meta itemprop="email" content="hail96@kaist.ac.kr" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">이메일</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="시계열 처리 신경망 (1) - RNN">
+    <meta itemprop="description" content="RNN의 구조와 원리">
+    <meta itemprop="datePublished" content="2021-06-15T00:00:00+00:00">
+    <meta itemprop="dateModified" content="2021-06-15T13:06:00+00:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">시계열 처리 신경망 (1) - RNN
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h3 id="-개요">✅ 개요</h3>
+
+<p>회사 업무서 시계열 데이터를 다룰 일들이 있어 시계열 처리를 위한 신경망들을 사용했었습니다. 회사 내부적으로 AI세미나라는 이름으로 스터디를 진행하고 있는데 시계열 처리 신경망들을 발표할 일이 생겨 정리할 겸 포스트를 남겨보려 합니다.</p>
+
+<p>본 포스트를 시작으로 RNN, LSTM, GRU 신경망에 대한 포스트를 업로드할 예정입니다. 발표를 위한 자료를 재정리한 정보라 순서가 조금 어색할 수 있습니다.</p>
+
+<p>Ref : <a href="https://ratsgo.github.io/natural%20language%20processing/2017/03/09/rnnlstm/">https://ratsgo.github.io/natural%20language%20processing/2017/03/09/rnnlstm/</a></p>
+
+<p>ratsgo님의 블로그인데 공부하는 데에 굉장히 도움을 많이 받았습니다!</p>
+
+<p>이미지 출처 : <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/">https://colah.github.io/posts/2015-08-Understanding-LSTMs/</a></p>
+
+<hr />
+
+<h3 id="-시계열-데이터를-위한-신경망">⌚ 시계열 데이터를 위한 신경망</h3>
+
+<p>시계열 데이터를 처음으로 다룬 이유는 손의 동작을 카메라로 인식하기 위해서였습니다. 정지한 손의 모양은 한 프레임의 사진만이 필요하지만 손을 돌리거나, 움직이는 행위를 판단하기 위해서는 여러 프레임의 사진이 필요했습니다. 이와 같은 상황에서는 일반적인 신경망이 아닌 시계열 데이터를 처리하기 위한 신경망을 사용하는 것이 좋습니다. 자연어 처리, 날씨 예측 등의 시계열 데이터 처리를 위한 신경망에는 RNN, LSTM, GRU 등이 있습니다.</p>
+
+<hr />
+
+<h3 id="-remind-basic-dl">❗ REMIND! (Basic DL)</h3>
+
+<center><img src="\assets\img\dl1_01.png" width="80%" height="80%" /></center>
+
+<p>AI는 인간의 뉴런을 모방한 프로그램적인 뉴런인 퍼셉트론들의 구성들로 층을 이뤄 배치한 것을 의미합니다. 우리 뉴런이 입력신호를 받아 신경세포를 거쳐 축삭돌기로 전기신호를 내 다음 뉴런으로 신호를 전달하듯이, 퍼셉트론은 이전 퍼셉트론으로부터의 입력값을 받아 각각의 가중치를 곱해 활성함수를 통해 다음 퍼셉트론으로 값을 전달하거나 예측값을 전달합니다. 딥러닝은 신경망으로부터 나온 값을 실제 값과 일치시키기 위해서 각각의 입력에 곱해지는 가중치와 bias를 업데이트하고 우리는 이 과정을 학습이라고 부릅니다. 예측값과 실제값의 차이를 이용해 가중치를 업데이트하는 과정에서 계산이 반대 방향으로 순차적으로 이루어지는데 이를 back propagation 또는 역전파라고 부릅니다.</p>
+
+<p>활성 함수에는 오른쪽 아래와 같이 시그모이드 함수, 하이퍼볼릭탄젠트, ReLU 등이 사용됩니다.</p>
+
+<hr />
+
+<h3 id="-rnn이란">❓ RNN이란?</h3>
+
+<center><img src="\assets\img\dl1_02.png" width="80%" height="80%" /></center>
+
+<p>RNN은 Recurrent Neural Networks의 약자로 은닉층이 순차적으로 순환구조를 이루는 인공 신경망의 한 종류를 뜻합니다. 아래 그림은 RNN 네트워크의 동작 과정을 나타내는 그림입니다. T번째 시퀀스에 해당하는 변수값들에 아래첨자로 t라고 표시했습니다. T번째 시퀀스에서는 t번째 시퀀스에 해당하는 input뿐 아니라, 이전 시퀀스의 은닉층 노드에 해당하는 h_(t-1)을 받아 가중치 W_hh를 곱한 값 또한 받아 활성함수 하이퍼볼릭탄젠트에 들어가게 됩니다. 다음 시퀀스인 t+1번째 시퀀스에서도 마찬가지로 이전 시퀀스의 은닉층 노드의 값 h_t를 이용해 계산하게 됩니다. 이와 같이 RNN은 시계열 데이터에 대한 처리가 가능합니다.</p>
+
+<hr />
+
+<h3 id="-forward-propagation-순전파">🔜 Forward Propagation (순전파)</h3>
+
+<center><img src="\assets\img\dl1_03.png" width="80%" height="80%" /></center>
+
+<p>Forward Propagation은 다음과 같이 이뤄집니다. 이전 시퀀스의 출력 계층이 아닌 은닉층에서 다음 은닉층으로 정보가 전달됨에 유의합니다.</p>
+
+<hr />
+
+<h3 id="-remind-backpropagation">❗ REMIND! (Backpropagation)</h3>
+
+<center><img src="\assets\img\dl1_04.png" width="80%" height="80%" /></center>
+
+<p>(오타냈다… 왜 일관성없게 순전파는 forward propagation이고 역전파는 backpropagation일까…)</p>
+
+<p>신경망에서 어떤 역할을 하는 신경망을 만들기 위해 가중치를 최적화 할 때, 엔지니어들은 예측값과 실제 값을 차이를 이용합니다. 예측값과 실제값의 차이를 나타내는 LOSS function을 이용해 앞의 가중치들을 업데이트 해야하는데 여기에는 경사하강법이 사용됩니다. 경사하강법은 loss funtion이 줄어드는 방향으로 가중치를 업데이트하는 방법론으로 오차를 뒤로 전달하며 오차의 기울기값인 라운드L라운드x값을 chain rule을 이용하여 구해 이용합니다.</p>
+
+<hr />
+
+<h3 id="-backpropagation-역전파">🔙 Backpropagation (역전파)</h3>
+
+<center><img src="\assets\img\dl1_05.png" width="80%" height="80%" /></center>
+
+<p>역전파는 다음과 같이 이루어져 가중치의 업데이트에 사용됩니다.</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#deep-learning" class="page__taxonomy-item" rel="tag">deep learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#deep-learning-theory" class="page__taxonomy-item" rel="tag">deep learning theory</a><span class="sep">, </span>
+    
+      <a href="/tags/#rnn" class="page__taxonomy-item" rel="tag">RNN</a><span class="sep">, </span>
+    
+      <a href="/tags/#time-series" class="page__taxonomy-item" rel="tag">time series</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#deep-learning-theory" class="page__taxonomy-item" rel="tag">Deep Learning Theory</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2021-06-15">June 15, 2021</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%EC%8B%9C%EA%B3%84%EC%97%B4+%EC%B2%98%EB%A6%AC+%EC%8B%A0%EA%B2%BD%EB%A7%9D+%281%29+-+RNN%20https%3A%2F%2Fhailsong.github.io%2Fdeep%2520learning%2520theory%2Fdeep-learning-1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhailsong.github.io%2Fdeep%2520learning%2520theory%2Fdeep-learning-1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fhailsong.github.io%2Fdeep%2520learning%2520theory%2Fdeep-learning-1%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/bitcoin%20auto%20trading/cryptocurrency-0/" class="pagination--pager" title="Upbit 비트코인 자동거래 봇 만들기 (0) - 개요 및 개발환경 (Python, Pycharm 설치)
+">이전</a>
+    
+    
+      <a href="/deep%20learning%20theory/deep-learning-2/" class="pagination--pager" title="시계열 처리 신경망 (2) - LSTM
+">다음</a>
+    
+  </nav>
+
+    </div>
+
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+        /*
+        var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        */
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hailsong-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    
+
+  </article>
+
+  
+
+  
+    <div class="page__related">
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/study/Gaussian-Splatting-1/" rel="permalink">Run 3D Gaussian Splatting (1) - Windows에서 3D 가우시안 스플래팅 구동
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Run 3D Gaussian Splatting on windows
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/avatar/Run-SMPLify-x-1/" rel="permalink">Run SMPLify-X (CVPR 2019)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Run SMPLify-X Demo code
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/avatar/Run-SCANimate-1/" rel="permalink">Run SCANimate (CVPR 2021)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Run SCANimate Demo code
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/coursework%20-%202022-1/Probability-and-Statistics-Summary/" rel="permalink">Probability and Statistics (1) - Summary (CH.2 ~ CH.7)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          최대 1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Probability and Statistics summary for (Ch.2 ~ CH.7), KAIST CC511 관련 자료
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    <script data-ad-client="ca-pub-4455412024236606" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <div align="center" style="margin: 1em 0;">
+    <ins class="adsbygoogle"
+         style="display:block; border-bottom: initial;"
+         data-ad-client="ca-pub-4455412024236606"
+         data-ad-format="auto"></ins>
+    </div> -->
+
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/hailsong" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 Hail Song. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LLKEW6ZWXP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LLKEW6ZWXP');
+</script>
+
+
+
+
+
+
+  </body>
+</html>

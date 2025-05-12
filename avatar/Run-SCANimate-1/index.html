@@ -1,0 +1,1009 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.23.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Run SCANimate (CVPR 2021) &amp;#124 Hail Song’s Blog</title>
+<meta name="description" content="Run SCANimate Demo code">
+
+
+  <meta name="author" content="Hail Song">
+  
+  <meta property="article:author" content="Hail Song">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Hail Song's Blog">
+<meta property="og:title" content="Run SCANimate (CVPR 2021)">
+<meta property="og:url" content="https://hailsong.github.io/avatar/Run-SCANimate-1/">
+
+
+  <meta property="og:description" content="Run SCANimate Demo code">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-06-30T00:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2022-07-05T17:06:01+00:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://hailsong.github.io/avatar/Run-SCANimate-1/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Hail Song",
+      "url": "https://hailsong.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Hail Song's Blog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Hail Song's Blog
+          <span class="site-subtitle">hail96@kaist.ac.kr</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/Curriculum%20Vitae/">Curriculum Vitae</a>
+            </li><li class="masthead__menu-item">
+              <a href="/publications/">Publications</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://hailsong.github.io/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#avatar" itemprop="item"><span itemprop="name">Avatar</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">Run SCANimate (CVPR 2021)</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatar.png" alt="Hail Song" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Hail Song</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Ph.D. Candidate at KAIST UVRlab, XR / Computer Vision / Computer Graphics Researcher</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Daejeon, Republic of Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+            <li><a href="https://uvrlab.org/" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">UVRlab</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/hailsong" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/hailsong" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/song.ha12" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+          
+            <li><a href="https://www.youtube.com/watch?v=hmRNMZlz974" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-youtube" aria-hidden="true"></i><span class="label">Youtube</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:hail96@kaist.ac.kr">
+            <meta itemprop="email" content="hail96@kaist.ac.kr" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">이메일</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Run SCANimate (CVPR 2021)">
+    <meta itemprop="description" content="Run SCANimate Demo code">
+    <meta itemprop="datePublished" content="2022-06-30T00:00:00+00:00">
+    <meta itemprop="dateModified" content="2022-07-05T17:06:01+00:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">Run SCANimate (CVPR 2021)
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 분 소요
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="scanimate">SCANimate</h2>
+
+<p>SCANimate: Weakly Supervised Learning of Skinned Clothed Avatar Networks (CVPR 2021 Oral)</p>
+
+<p><a href="https://scanimate.is.tue.mpg.de/">SCANimate Project Page</a></p>
+
+<p>SCANimate는 3D Human model generation에 대해 깊고 다양한 연구를 하는 Max-Planck-Gesellschaft 에서 연구된 논문으로 Weakly Supervised Learning을 통해 구멍이나 부족한 부분이 있는 여러 Raw Scan Data를 통해 얻은 Input Data로 옷을 포함한 상태의 Animatable 한 full body avatar를 만드는 내용의 논문이다.</p>
+
+<p>model의 main figure는 다음과 같다.</p>
+
+<center><img src="\assets\img\scanimate_1\1.png" width="80%" height="80%" /></center>
+
+<hr />
+
+<h2 id="scanimate-demo-code">SCANimate Demo Code</h2>
+
+<p><a href="https://github.com/shunsukesaito/SCANimate">SCANimate Github</a></p>
+
+<p>SCANimate Github page에서는 raw scan data들로 논문에서 제시하는 human 3d model인 1) scanimat을 만드는 코드와 2) pose 데이터를 이용해 frame별 자세를 만드는 코드, 그리고 3) Rendering하여 보여주는 코드를 제공하고 있다. Github에서 제공하는 코드를 실행시키는 과정을 정리했다.</p>
+
+<p>개발 환경 : Ubuntu 18.04, CUDA10.1, Conda</p>
+
+<p>(CUDA 10.0짜리 container로하다가 다시 했다…)</p>
+
+<ul>
+  <li>
+    <p>Installation.txt</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Setup virtual environment:
+Go to the scanimate directory in the command line, then
+$ source ./install.sh
+If you use other python and cuda versions (default python3.6 cuda 10.1), please change the cuda version and python version in ./install.sh
+  
+2. Download the smpl model:
+Download smpl models from https://smpl.is.tue.mpg.de/, put them into models folder under ./scanimate/smpl/models/smpl
+By default we use 10 PCA models and .pkl format.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>install.sh</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#/bin/bash
+echo "Set up virtualenv for scanimate..."
+virtualenv -p python3.6 ./venv/scanimate
+. ./venv/scanimate/bin/activate
+  
+echo "Installing torch..."
+echo "If you are using other versions (default python3.6 cuda 10.1), change the cuda version and python version in ./install.sh"
+pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+  
+echo "Installing pytorch3d..."
+echo "If you are using other versions (default python3.6 cuda 10.1), change the cuda version and python version in ./install.sh"
+pip install pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py36_cu101_pyt171/download.html
+  
+echo "Installing other dependencies..."
+pip install -r requirements.txt
+  
+echo "Installing customized smpl code"
+cd smpl
+python3 setup.py install
+cd ../
+  
+echo "Done!"
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>requirement.txt</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>numpy==1.19.5
+trimesh==3.9.20
+matplotlib==3.3.4
+scikit-image==0.17.2
+pyyaml==5.4.1
+chumpy==0.70
+tqdm==4.61.1
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>코드에서 제공하는 설치 방법은 installation.txt에 따르면 install.sh를 통해 설치하라고 되어있는데 이전에 smplify-x를 설치할 때에 pytorch3d 설치 과정에서 문제를 겪었던 과정을 생각하여 dependency가 안꼬이길 바라면서 virtualenv가 아닌 conda를 사용하여 가상환경을 구축하였다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create -n smplify-x python=3.6
+conda activate smplify-x
+</code></pre></div></div>
+
+<p>pytorch3d를 막 설치하다보니까</p>
+
+<p>ImportError: /home/dlituiev/.conda/envs/torch3d/lib/python3.7/site-packages/pytorch3d/_C.cpython-37m-x86_64-linux-gnu.so: undefined symbol: _ZN3c104impl23ExcludeDispatchKeyGuardC1ENS_11DispatchKeyE</p>
+
+<p>와 같은 Error가 있었는데</p>
+
+<p><a href="https://github.com/facebookresearch/pytorch3d/issues/495">https://github.com/facebookresearch/pytorch3d/issues/495</a></p>
+
+<p>를 참조해 해결했다.</p>
+
+<p>install.sh를 바로 실행하지 말고</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda install -c pytorch pytorch=1.7.0 torchvision cudatoolkit=10.1
+conda install -c conda-forge -c iopath fvcore iopath
+conda install -c pytorch3d pytorch3d
+</code></pre></div></div>
+
+<p>를 이용해 conda로 pytorch3d를 설치해줬다.</p>
+
+<p>pytorch3d를 설치한 뒤에는 뒤쪽 나머지 dependency를 설치해줬다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#echo "Installing other dependencies..."
+pip install -r requirements.txt
+
+#echo "Installing customized smpl code"
+cd smpl
+python3 setup.py install
+cd ../
+
+echo "Done!"
+</code></pre></div></div>
+
+<p>그리고 아래 안내에 따라 필요한 모델들을 다운로드받아준다.</p>
+
+<p><strong>1. First download the pretrained model, some motion sequences and other files for the demo</strong></p>
+
+<ul>
+  <li>Download an AIST++ dance motion sequence for test (CC BY 4.0 license):</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ . ./download_aist_demo_motion.sh
+</code></pre></div></div>
+
+<p>This script will create a <code class="language-plaintext highlighter-rouge">data</code> folder under current directory, please make sure to put it under the <code class="language-plaintext highlighter-rouge">SCANimate</code> directory.</p>
+
+<ul>
+  <li>Download pre-trained scanimats for animation test: Please visit https://scanimate.is.tue.mpg.de/download.php, register, login, read and agree to the license and then download some demo scanimats. Unzip the zip file into <code class="language-plaintext highlighter-rouge">./data</code> directory</li>
+  <li>Download subset of CAPE data for training demo: Please visit https://scanimate.is.tue.mpg.de/download.php, register, login, read and agree to the license and then download the data for training demo. Unzip the zip file into <code class="language-plaintext highlighter-rouge">./data</code> directory.</li>
+  <li>Now you should have a <code class="language-plaintext highlighter-rouge">./data</code> directory under <code class="language-plaintext highlighter-rouge">SCANimate</code>. Within <code class="language-plaintext highlighter-rouge">./data</code> you will have 5 directories: <code class="language-plaintext highlighter-rouge">minimal_body</code>, <code class="language-plaintext highlighter-rouge">pretrained</code>, <code class="language-plaintext highlighter-rouge">pretrained_configs</code>, <code class="language-plaintext highlighter-rouge">test</code>, and <code class="language-plaintext highlighter-rouge">train</code>.</li>
+</ul>
+
+<p>또한 smpl 모델 파일들을 넣어줘야한다.</p>
+
+<p>Download the smpl model:
+Download smpl models from https://smpl.is.tue.mpg.de/, put them into models folder under ./scanimate/smpl/models/smpl
+By default we use 10 PCA models and .pkl format.</p>
+
+<p>.pkl파일 두개를 넣어줘야하는데 이때 파일 이름을 SMPL_FEMALE.pkl, SMPL_MAKE.pkl로 바꿔줘야한다. 이런식으로!</p>
+
+<center><img src="\assets\img\scanimate_1\2.png" width="80%" height="80%" /></center>
+
+<p>그 다음으로 Run animation demos에 나온대로 따라하면 된다.</p>
+
+<hr />
+
+<h3 id="run-animation-demos">Run animation demos:</h3>
+
+<p><strong>2. Now you can run the test demo with the following command:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python -m apps.test_scanimate -c ./data/pretrained_configs/release_03223_shortlong.yaml -t ./data/test/gLO_sBM_cAll_d14_mLO1_ch05
+</code></pre></div></div>
+
+<ul>
+  <li>You can replace the configuration file with other files under <code class="language-plaintext highlighter-rouge">./data/pretrained_configs/</code> to try other subjects.</li>
+  <li>You can also replace the test motions with others under <code class="language-plaintext highlighter-rouge">./data/test</code>.</li>
+  <li>The result will be generated under <code class="language-plaintext highlighter-rouge">./demo_result/results_test</code>.</li>
+</ul>
+
+<p><strong>3. The generated mesh sequences can be rendered with the code under <code class="language-plaintext highlighter-rouge">./demo_result</code></strong>:</p>
+
+<p>First, install Open3D (for rendering the results) by:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip install open3d==0.12.0
+</code></pre></div></div>
+
+<p>Then run:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python render/render_aist.py -i demo_result/results_test/release_03223_shortlong_test_gLO_sBM_cAll_d14_mLO1_c
+</code></pre></div></div>
+
+<p>apps.test_scanimate를 실행할 때 몇 가지 오류가 났는데 아래에 정리해놨다.</p>
+
+<p>$ python -m apps.test_scanimate -c ./data/pretrained_configs/release_03223_shortlong.yaml -t ./data/test/gLO_sBM_cAll_d14_mLO1_ch05 부분을 통과하면 ./demo_result/results_test에 애니메이션을 만들기 위한 각 프레임이 생긴다.</p>
+
+<center><img src="\assets\img\scanimate_1\3.png" width="80%" height="80%" /></center>
+
+<p>$ python render/render_aist.py -i demo_result/results_test/release_03223_shortlong_test_gLO_sBM_cAll_d14_mLO1_c</p>
+
+<p>open3d를 설치해서 rendering하는 과정에서 GUI를 통해 보여주면서 rendering을 하게 되는데… 이게 문제가 연구실 서버에 깔린 리눅스로 작업을 하다 보니 디스플레이장치가 없어 보여주질 못해 오류가 생기는 것 같았다.</p>
+
+<p>GLFW Error: X11: The DISPLAY environment variable is missing</p>
+
+<p>사실 FM대로라면 <a href="https://github.com/adioshun/gitBook_PCL/issues/1#issuecomment-1065382119">https://github.com/adioshun/gitBook_PCL/issues/1#issuecomment-1065382119</a>의 첫 문단에서 제시하는것과 같이 스크린을 X server로 forward해서 보여주는게 맞겠지만 귀찮아서 open3d사용하는 코드부터는 결과를 연구실 윈도우 컴퓨터로 가져와서 돌렸다.</p>
+
+<center><img src="\assets\img\scanimate_1\4.png" width="80%" height="80%" /></center>
+
+<p>코드 뒷부분에 ffmpeg랑 rm을 사용하는 부분이 있는데 아래 블로그를 보면서 ffmpeg를 해결했고, rm부분은 중간에 동영상 연결하면서 남는 이미지 파일에 대한것인데 크게 중요하지 않아서 주석처리했다.</p>
+
+<p><a href="https://www.lainyzine.com/ko/article/how-to-install-ffmpeg-on-windows-10/">https://www.lainyzine.com/ko/article/how-to-install-ffmpeg-on-windows-10/</a></p>
+
+<p><a href="https://www.lainyzine.com/ko/article/how-to-install-package-manager-chocolatey-on-windows-10/">https://www.lainyzine.com/ko/article/how-to-install-package-manager-chocolatey-on-windows-10/</a></p>
+
+<hr />
+
+<h3 id="설치-시-만났던-오류-troubleshooting">설치 시 만났던 오류 troubleshooting</h3>
+
+<ul>
+  <li>
+    <p><a href="https://stackoverflow.com/questions/60648478/oserror-libusb-1-0-so-cannot-open-shared-object-file-no-such-file-or-director">OSError: libusb-1.0.so: cannot open shared object file: No such file or directory while building docs in readthedocs</a></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get -y install libusb-1.0-0-dev
+</code></pre></div>    </div>
+
+    <p>로 해결</p>
+  </li>
+  <li>
+    <p><a href="https://www.inflearn.com/questions/57362">ImportError: libGL.so.1: cannot open shared object file: No such file or directory</a></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install libgl1-mesa-glx
+</code></pre></div>    </div>
+
+    <p>opencv import하는 과정에서 발생했던 오류</p>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="output">Output</h3>
+
+<center><img src="\assets\img\scanimate_1\3.png" width="80%" height="80%" /></center>
+
+<p>각 프레임별로 obj 파일이 이런식으로 나왔고</p>
+
+<center><img src="\assets\img\scanimate_1\5.gif" width="80%" height="80%" /></center>
+
+<p>요런식으로 랜더링이 됐다.</p>
+
+<hr />
+
+<h3 id="future-work">Future Work</h3>
+
+<p>논문에서는 texture에 대한 내용이 있었는데 코드에는 포함되어있지 않은 것 같았다.</p>
+
+<p>texture에 대해 reference삼은 아래 논문들을 확인해봐야할 것 같다.</p>
+
+<p>Jingwei Huang, Justus Thies, Angela Dai, Abhijit Kundu,
+Chiyu Max Jiang, Leonidas J. Guibas, Matthias Nießner, and
+Thomas A. Funkhouser. Adversarial texture optimization
+from RGB-D scans. In 2020 IEEE/CVF Conference on
+Computer Vision and Pattern Recognition, CVPR 2020,
+Seattle, WA, USA, June 13-19, 2020, pages 1556–1565. IEEE,
+2020</p>
+
+<p>Michael Oechsle, Lars M. Mescheder, Michael Niemeyer,
+Thilo Strauss, and Andreas Geiger. Texture fields: Learning
+texture representations in function space. In 2019 IEEE/CVF
+International Conference on Computer Vision, ICCV 2019,
+Seoul, Korea (South), October 27 - November 2, 2019, pages
+4530–4539. IEEE, 2019.</p>
+
+<p>Shunsuke Saito, Zeng Huang, Ryota Natsume, Shigeo
+Morishima, Hao Li, and Angjoo Kanazawa. PIFu: Pixelaligned
+implicit function for high-resolution clothed human
+digitization. In 2019 IEEE/CVF International Conference on
+Computer Vision, ICCV 2019, Seoul, Korea (South), October
+27 - November 2, 2019, pages 2304–2314. IEEE, 2019. 3</p>
+
+<p>사족으로 mpg에서 제공해준 input raw scan data가 생각보다 깔끔해서 결과가 잘 나오는게 아닌가 라는 생각이 들었다.</p>
+
+<center><img src="\assets\img\scanimate_1\6.gif" width="80%" height="80%" /></center>
+
+<p>손 부분만 구멍이 나고 이런식으로 거의 되있어서 나중에 scan data를 직접 획득한걸로 데모해볼 수 있으면 해볼 필요가 있겠다.</p>
+
+<hr />
+
+<h3 id="reference">Reference</h3>
+
+<p><a href="https://scanimate.is.tue.mpg.de/">SCANimate Project Page</a></p>
+
+<p><a href="https://github.com/shunsukesaito/SCANimate">SCANimate Github</a></p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#avatar" class="page__taxonomy-item" rel="tag">Avatar</a><span class="sep">, </span>
+    
+      <a href="/tags/#deep-learning" class="page__taxonomy-item" rel="tag">Deep Learning</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#avatar" class="page__taxonomy-item" rel="tag">Avatar</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2022-07-05">July 5, 2022</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Run+SCANimate+%28CVPR+2021%29%20https%3A%2F%2Fhailsong.github.io%2Favatar%2FRun-SCANimate-1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhailsong.github.io%2Favatar%2FRun-SCANimate-1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fhailsong.github.io%2Favatar%2FRun-SCANimate-1%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/coursework%20-%202022-1/Probability-and-Statistics-Summary/" class="pagination--pager" title="Probability and Statistics (1) - Summary (CH.2 ~ CH.7)
+">이전</a>
+    
+    
+      <a href="/avatar/Run-SMPLify-x-1/" class="pagination--pager" title="Run SMPLify-X (CVPR 2019)
+">다음</a>
+    
+  </nav>
+
+    </div>
+
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+        /*
+        var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        */
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hailsong-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    
+
+  </article>
+
+  
+
+  
+    <div class="page__related">
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/study/Gaussian-Splatting-1/" rel="permalink">Run 3D Gaussian Splatting (1) - Windows에서 3D 가우시안 스플래팅 구동
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Run 3D Gaussian Splatting on windows
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/avatar/Run-SMPLify-x-1/" rel="permalink">Run SMPLify-X (CVPR 2019)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Run SMPLify-X Demo code
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/coursework%20-%202022-1/Probability-and-Statistics-Summary/" rel="permalink">Probability and Statistics (1) - Summary (CH.2 ~ CH.7)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          최대 1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Probability and Statistics summary for (Ch.2 ~ CH.7), KAIST CC511 관련 자료
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/algorithm%20-%20leetcode/LeetCode-16/" rel="permalink">LeetCode (16) - Construct Binary Tree from Preorder and Inorder Traversal(파이썬, python)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">python으로 leetcode 풀기,  Construct Binary Tree from Preorder and Inorder Traversal
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    <script data-ad-client="ca-pub-4455412024236606" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <div align="center" style="margin: 1em 0;">
+    <ins class="adsbygoogle"
+         style="display:block; border-bottom: initial;"
+         data-ad-client="ca-pub-4455412024236606"
+         data-ad-format="auto"></ins>
+    </div> -->
+
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/hailsong" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 Hail Song. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LLKEW6ZWXP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LLKEW6ZWXP');
+</script>
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,1212 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://hailsong.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://hailsong.github.io/" rel="alternate" type="text/html" /><updated>2025-05-12T06:44:22+00:00</updated><id>https://hailsong.github.io/feed.xml</id><title type="html">Hail Song’s Blog</title><subtitle>Ph.D. Candidate at KAIST UVRlab, XR / Computer Vision / Computer Graphics Researcher</subtitle><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><entry><title type="html">Run 3D Gaussian Splatting (1) - Windows에서 3D 가우시안 스플래팅 구동</title><link href="https://hailsong.github.io/study/Gaussian-Splatting-1/" rel="alternate" type="text/html" title="Run 3D Gaussian Splatting (1) - Windows에서 3D 가우시안 스플래팅 구동" /><published>2023-11-14T00:00:00+00:00</published><updated>2023-11-14T17:06:01+00:00</updated><id>https://hailsong.github.io/study/Gaussian-Splatting-1</id><content type="html" xml:base="https://hailsong.github.io/study/Gaussian-Splatting-1/"><![CDATA[<h3 id="3d-gaussian-splatting-windows">3D Gaussian Splatting (Windows)</h3>
+
+<p><a href="https://www.youtube.com/watch?v=UXtuigy_wYc">Getting Started With 3D Gaussian Splatting for Windows (Beginner Tutorial)</a></p>
+
+<p>Scene Representation에서 최근 엄청난 성능 (특히 렌더링 속도 측면)을 보인 3D Gaussian Splatting에 대해서 윈도우에서 구동되는 좋은 예제가 위 링크에 소개되어 있어 정리하는 겸 한국어로 포스트를 남기게 되었습니다. Container 따로 서버에 만들고 할 필요없이 테스트 용으로 윈도우에서 학습시켜보고 싶은 분들께 좋을 것 같아요. 본 포스트 이후에는 Unity에서, 그리고 VR HMD (Meta Quest 3)에서 학습된 Gaussian 3D Splatting을 렌더링하는 자료를 포스트할 예정입니다.</p>
+
+<center><img src="\assets\img\3dgs-1\1.png" width="80%" height="80%" /></center>
+
+<p><a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3D Gaussian Splatting for Real-Time Radiance Field Rendering</a></p>
+
+<p>3D Gaussian Splatting은 NeRF로 대표되는 Novel View Scene Rendering과 같이 여러 사진이나 동영상 정보가 주어졌을 때 새로운 포즈에서 본 뷰를 합성하기 위한 기법으로 NeRF와 다르게 공간을 3D Gaussian 분포를 가지는 여러 Color Splat들로 보아 렌더링 시간을 획기적으로 줄인 연구입니다. 본 포스트는 코드에 대한 내용을 주로 다룰 예정입니다. 이론적인 부분은 아래 xoft님의 블로그에 논문 리뷰가 있는데 쉽게 잘 설명해주셔서 링크 걸어놓겠습니다!</p>
+
+<p><a href="https://xoft.tistory.com/51">[논문 리뷰] 3D Gaussian Splatting (SIGGRAPH 2023) : 랜더링 속도/퀄리티 개선</a></p>
+
+<p>이제 아래 영상을 참고한 Windows 환경에서 3D Gaussian Splatting (이하 3DGS)를 학습시키는 레포에 대한 소개를 써보겠습니다.</p>
+
+<p><a href="https://www.youtube.com/watch?v=UXtuigy_wYc">Getting Started With 3D Gaussian Splatting for Windows (Beginner Tutorial)</a></p>
+
+<h4 id="github-repositories">Github Repositories</h4>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/jonstephens85/gaussian-splatting-Windows/tree/main">3DGS Code (Windows version)</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/graphdeco-inria/gaussian-splatting">Original 3DGS Code</a></p>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="environments">Environments</h3>
+
+<p>제 윈도우 데스크탑 스펙은 아래와 같습니다.</p>
+<ul>
+  <li>i7-8700</li>
+  <li>RTX 3090</li>
+  <li>64GB RAM</li>
+</ul>
+
+<p>GPU가 조금 중요한데, 3DGS에서 권장하는 VRAM의 크기가 20GB여서, 3090보다 안좋은 그래픽카드에서는 문제가 있을 수 있다고 합니다.</p>
+
+<hr />
+
+<h3 id="overview">Overview</h3>
+
+<center><img src="\assets\img\3dgs-1\2.png" width="80%" height="80%" /></center>
+
+<p>코드는 아래와 같이 이미지를 전처리하는 부분, 3DGS를 Optimizing하는 부분, 그리고 Real-time Renderer 세 부분으로 나뉘어 있습니다.
+이 중 이미지를 전처리하는 부분은 영상을 이미지 단위로 나누는 ffmpeg, 카메라 포즈를 찾고 Initial point cloud를 찾는 COLMAP이 맡게 됩니다.</p>
+
+<hr />
+
+<h3 id="requirements">Requirements</h3>
+
+<p>코드를 실행시키기 위해 필요한 Requirements입니다.</p>
+
+<ul>
+  <li>Git</li>
+  <li>Conda</li>
+  <li>CUDA Toolkit (v11.8)</li>
+  <li>Visual Studio (&gt;=2019) with Desktop Development with C++</li>
+  <li>COLMAP</li>
+  <li>ImageMagik</li>
+  <li>FFMPEG</li>
+</ul>
+
+<h4 id="colmap">COLMAP</h4>
+<p><a href="https://github.com/colmap/colmap/releases">COLMAP repository</a></p>
+
+<p>위 링크에서 COLMAP을 받아줍니다.</p>
+
+<center><img src="\assets\img\3dgs-1\3.png" width="80%" height="80%" /></center>
+
+<p>가장 최신 버전의 windows-cuda.zip을 다운받습니다.</p>
+
+<center><img src="\assets\img\3dgs-1\4.png" width="80%" height="80%" /></center>
+
+<p>압축을 풀어서 편한 위치에 놓아줍니다. 저는 C 밑에 바로 놨습니다.</p>
+
+<center><img src="\assets\img\3dgs-1\5.png" width="80%" height="80%" /></center>
+
+<p>그리고 Windows 시스템 변수의 Path에 COLMAP이 있는 경로를 추가해줍니다.</p>
+
+<h4 id="imagemagik">ImageMagik</h4>
+<p><a href="https://imagemagick.org/script/download.php">Download ImageMagik</a></p>
+
+<p>이미지 사이즈를 변화시키기 위한 프로그램입니다.</p>
+
+<center><img src="\assets\img\3dgs-1\6.png" width="80%" height="80%" /></center>
+
+<p>위 링크에서 Windoes binary release에서 최신버전 exe 파일을 받아 설치한 뒤,</p>
+
+<h4 id="ffmpeg">FFmpeg</h4>
+<p><a href="https://ffmpeg.org/download.html">Download FFmpeg</a></p>
+
+<p>위 페이지에서 아래 사진들처럼 링크를 타고 들어가서 ffmpeg-git-essentials.7z를 받습니다.</p>
+
+<center><img src="\assets\img\3dgs-1\7.png" width="80%" height="80%" /></center>
+
+<center><img src="\assets\img\3dgs-1\8.png" width="80%" height="80%" /></center>
+
+<center><img src="\assets\img\3dgs-1\9.png" width="80%" height="80%" /></center>
+
+<p>COLMAP과 비슷하게 시스템 변수에 해당 경로를 추가해줍니다.</p>
+
+<center><img src="\assets\img\3dgs-1\10.png" width="80%" height="80%" /></center>
+
+<h2 id="이제-requirements-설치가-정상적으로-끝났네요">이제 Requirements 설치가 정상적으로 끝났네요!</h2>
+
+<h3 id="clone-repository">Clone Repository</h3>
+
+<p>이제 코드를 둘 폴더로 가서 windows command나 git bash에서 3DGS repository를 Clone합니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># SSH
+git clone git@github.com:graphdeco-inria/gaussian-splatting.git --recursive
+</code></pre></div></div>
+<p>or</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># HTTPS
+git clone https://github.com/graphdeco-inria/gaussian-splatting --recursive
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="setup-conda-environments">Setup Conda environments</h3>
+
+<p>아래 절차와 같이 Conda 환경을 구성합니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 3DGS 폴더로 이동
+cd gaussian-splatting
+SET DISTUTILS_USE_SDK=1 # Windows only
+# environment.yml에 있는 환경대로 conda 환경 구성
+conda env create --file environment.yml
+# conda 환경 구동
+conda activate gaussian_splatting
+</code></pre></div></div>
+
+<p>이제 3DGS구동에 필요한 라이브러리들이 gaussian_splatting conda 환경에 설치되었습니다.
+여기서 뭔가 정상적으로 설치가 안되면 문제가 생길 수 있습니다. 저는 서버 문제때문인지 diff_gaussian_rasterization이 잘 안깔렸던것 같아요. 그래서 아래 이슈를 보고 해결했습니다.</p>
+
+<p><a href="https://github.com/graphdeco-inria/gaussian-splatting/issues/444">https://github.com/graphdeco-inria/gaussian-splatting/issues/444</a></p>
+
+<p>혹시 모듈들이 덜깔리는 문제가 생기면 아래 방법을 써주세요!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pip install submodules\diff-gaussian-rasterization
+pip install submodules\simple-knn
+</code></pre></div></div>
+
+<p>위 코드로 submodule들을 다시 깔아줬습니다.</p>
+
+<hr />
+
+<h3 id="이미지-전처리">이미지 전처리</h3>
+
+<p>FFmpeg를 이용해 비디오를 이미지로 나누고, COLMAP을 통해 카메라 위치를 추정하는 부분입니다.</p>
+
+<p>우선 복원할 씬을 담은 비디오를 촬영합니다. 저는 iphone 13으로 (4k 60fps) 제 연구실 실험실을 촬영했습니다.
+30 fps로 하니까 블러가 좀 있어서 조금 문제가 있더라구요.</p>
+
+<center><img src="\assets\img\3dgs-1\11.png" width="80%" height="80%" /></center>
+
+<p>초록색 크로마키가 있어서… COLMAP이 잘 작동할지 조금 걱정되긴 하네요.</p>
+
+<p>이제 저장된 폴더에서 아래 command를 이용해 ffmpeg를 실행합니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ffmpeg -i {video_filename} -qscale:v 1 -qmin 1 -vf fps={fps} %04d.jpg
+# 저는 아래와 같이 썼습니다.
+# ffmpeg -i XR_room.MOV -qscale:v 1 -qmin 1 -vf fps=10 %04d.jpg
+</code></pre></div></div>
+
+<p>video_filename에는 동영상의 이름을, fps에는 이미지에서 몇 fps 단위로 이미지를 뽑을지 정하는 args입니다. 포스트 쓰기 전에 2FPS로 했는데 뭔가 만족스럽지 못해서 이번에는 fps를 좀 크게 잡았어요.</p>
+
+<center><img src="\assets\img\3dgs-1\12.png" width="80%" height="80%" /></center>
+
+<p>아래와 같이 이미지가 4개의 정수들 이름의 jpg 파일들로 저장이 되었습니다.</p>
+
+<p>이제 이 이미지들과 오리지날 비디오를 COLMAP을 위해 폴더 구성을 해줘야합니다. 저같은경우에는 gaussian-splatting 위치에 data라는 폴더를 만들고 거기에 넣었습니다.</p>
+
+<center><img src="\assets\img\3dgs-1\14.png" width="80%" height="80%" /></center>
+
+<p>input 폴더 내에는 ffmpeg에서 뽑은 이미지들을 전부 넣어줬습니다.</p>
+
+<p>이제 아래 command를 이용해 COLMAP을 기반으로 한 convert 파이썬 코드를 사용합니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python convert.py -s {data_path}
+</code></pre></div></div>
+
+<p>예시)</p>
+<center><img src="\assets\img\3dgs-1\15.png" width="80%" height="80%" /></center>
+
+<p>COLMAP이 구동되는데에 시간이 조금 걸립니다..!</p>
+
+<p>COLMAP 구동이 끝나면 아래와 같이 폴더가 구성됩니다.</p>
+
+<center><img src="\assets\img\3dgs-1\16.png" width="80%" height="80%" /></center>
+
+<p>이제 Optimization으로 넘어가보죠.</p>
+
+<hr />
+
+<h3 id="optimization-traning">Optimization (Traning)</h3>
+
+<p>아래 command를 이용해 training 코드를 실행합니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python train.py -s {data_path}
+</code></pre></div></div>
+
+<p>간단하죠?</p>
+
+<center><img src="\assets\img\3dgs-1\17.png" width="80%" height="80%" /></center>
+
+<p>Training 코드에서 받는 args는 위 사진과 같습니다. 7000번째,  30000번째 iteration에서 checkpoint를 저장합니다.</p>
+
+<center><img src="\assets\img\3dgs-1\18.png" width="80%" height="80%" /></center>
+
+<p>Optimizing 과정 동안 터미널에 다음 메시지들이 떴습니다.</p>
+
+<center><img src="\assets\img\3dgs-1\19.png" width="80%" height="80%" /></center>
+
+<p>4k이미지를 줬었는데 (width = 3840) 가로기준 1600 넘으면 1600으로 resizing을 하니 원본 이미지를 유지하면서 인풋으로 주고싶으면 -r 옵션을 주라고 하네요.
+loss로 쓰는 L1과 평가를 위한 PSNR (Peak Signal Noise Ratio)도 체크포인트를 저장할때 보여주네요.
+환경이 받쳐주면 Tensorboard로도 모니터링이 가능합니다.</p>
+
+<p>학습이 끝나면 gaussian-splatting/output 폴더에 저장됩니다. 여기에는 아래와 같은 파일들이 있는데요,</p>
+<ul>
+  <li>input.ply # COLMAP에서 추출한 3DGS optimization에 사용된 initial point clouds</li>
+  <li>cfg_args # 3DGS config file</li>
+  <li>cameras.json # 이미지들의 카메라 매트릭스 정보</li>
+  <li>point_cloud
+    <ul>
+      <li>iteration_7000</li>
+      <li>iteration_30000 # 각 iteration 안에 있는 ply파일에는 pointcloud 뿐만 아니라 splat들이 가지고 있는 color 정보나 분산 정보가 함께 들어있어 scene에 대한 표현이 한 파일 안에 있다고 볼 수 있습니다. 일반적으로 optimization 과정에서 splat들이 점점 늘어나게 되어 용량이 조금 큽니다.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="viewer">Viewer</h3>
+
+<p><a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/binaries/viewers.zip">Download Pre-built Windows Binary</a></p>
+
+<p>미리 빌드된 Windows viewer의 바이너리 파일을 위 링크를 통해 다운받을 수 있습니다. 혹시 위 링크가 안된다면 - <a href="https://github.com/graphdeco-inria/gaussian-splatting">Original 3DGS Code</a> 여기서 해당 내용 찾아서 다운받으면 됩니다.</p>
+
+<p>저는 해당 프로그램을 gaussian-splatting/viewers에 저장했습니다.
+viewers의 bin 폴더로 들어가서 다음 명령을 통해 SIBR_gaussianViewer_app.exe를 실행합니다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>SIBR_gaussianViewer_app.exe -m {output_folder_path}
+# ex)
+# SIBR_gaussianViewer_app.exe -m C:\Users\UVR_HAILSONG\Python_Projects\gaussian-splatting\output\3e66462f-6
+</code></pre></div></div>
+
+<center><img src="\assets\img\3dgs-1\20.png" width="80%" height="80%" /></center>
+
+<p>학습이 잘 됐고, 렌더링도 60FPS에 가깝게 잘 되는군요 (논문에는 더 빠르게 리포트돼있는데 옵션에서 더 빠르게 만들수 있을것 같습니다.)</p>
+
+<p>Viewer 조작법은 아래와 같습니다.</p>
+
+<p>Navigation in SIBR Viewers</p>
+
+<p><em>The SIBR interface provides several methods of navigating the scene. By default, you will be started with an FPS navigator, which you can control with W, A, S, D, Q, E for camera translation and I, K, J, L, U, O for rotation. Alternatively, you may want to use a Trackball-style navigator (select from the floating menu). You can also snap to a camera from the data set with the Snap to button or find the closest camera with Snap to closest. The floating menues also allow you to change the navigation speed. You can use the Scaling Modifier to control the size of the displayed Gaussians, or show the initial point cloud.</em></p>
+
+<p>cf) tensorboard 사용</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tensorboard --logdir=./output/{# training folder...}
+# ex)
+# tensorboard --logdir=./output/7ef23932-f
+</code></pre></div></div>
+<p>output 폴더에 로그가 생겨서 텐서보드 쓰려면 디렉토리 이런식으로 설정해줘야 합니다.</p>
+
+<p>다음 포스트에서는 학습시킨 3DGS를 유니티 상에서, 그리고 VR HMD인 Meta Quest 3에서 렌더링하는 과정을 공유해보도록 하겠습니다!</p>
+
+<hr />
+
+<h3 id="references">References</h3>
+
+<ul>
+  <li>
+    <p><a href="https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/">3D Gaussian Splatting for Real-Time Radiance Field Rendering</a></p>
+  </li>
+  <li>
+    <p><a href="https://xoft.tistory.com/51">[논문 리뷰] 3D Gaussian Splatting (SIGGRAPH 2023) : 랜더링 속도/퀄리티 개선</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.youtube.com/watch?v=UXtuigy_wYc">Getting Started With 3D Gaussian Splatting for Windows (Beginner Tutorial)</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/jonstephens85/gaussian-splatting-Windows/tree/main">3DGS Code (Windows version)</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/graphdeco-inria/gaussian-splatting">Original 3DGS Code</a></p>
+  </li>
+</ul>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Study" /><category term="Study" /><category term="Gaussian Splating" /><category term="Running Code" /><summary type="html"><![CDATA[Run 3D Gaussian Splatting on windows]]></summary></entry><entry><title type="html">Run SMPLify-X (CVPR 2019)</title><link href="https://hailsong.github.io/avatar/Run-SMPLify-x-1/" rel="alternate" type="text/html" title="Run SMPLify-X (CVPR 2019)" /><published>2022-07-05T00:00:00+00:00</published><updated>2022-06-30T17:06:01+00:00</updated><id>https://hailsong.github.io/avatar/Run%20SMPLify-x-1</id><content type="html" xml:base="https://hailsong.github.io/avatar/Run-SMPLify-x-1/"><![CDATA[<h2 id="smplify-x-demo-code">SMPLify-X demo code</h2>
+
+<p>돌리는데에 시행착오가 조금 있었어서 저같은 상황에서 참조하실 분들이 계실까봐 포스트로 남깁니다…</p>
+
+<p>개발환경은 ubuntu18.04, cuda 10.0 이었다.</p>
+
+<p><a href="https://github.com/vchoutas/smplify-x/issues/3#issuecomment-507682801">https://github.com/vchoutas/smplify-x/issues/3#issuecomment-507682801</a></p>
+
+<p><a href="https://colab.research.google.com/github/sergeyprokudin/smplpix/blob/main/colab_notebooks/Convert_Video_to_SMPLpix_Dataset.ipynb">https://colab.research.google.com/github/sergeyprokudin/smplpix/blob/main/colab_notebooks/Convert_Video_to_SMPLpix_Dataset.ipynb</a></p>
+
+<p>첫번째 링크에서 conda로 환경구성하는데에 오류가 있다는 이슈가 있다는 이야기가 있어서 따라 해봤는데 결과가 좋지 않았다.</p>
+
+<p>두번째 링크는 SMPLpix라는 SMPL모델을 Neural rendering하는 논문(자세히는 아직 보지 못했다.)의 과정에서 SMPLify-x를 쓰는 코드가 colab으로 제공되어 참조했다! 별 기대안하고 돌렸는데 colab에서 성공해버릴 줄이야…</p>
+
+<p>colab코드에서는</p>
+
+<p>1) video 업로드 및 ffmpeg를 이용한 video에서의 프레임 추출
+2) Openpose를 이용한 각 프레임에서의 2D body keypoint 추출
+3) 추출한 keypoint와 이미지를 이용해 SMPLify-x 실행</p>
+
+<p>의 순서로 코드가 진행되어 있었다.</p>
+
+<p>1, 3번은 개발중이던 cuda, ubuntu 버전에서 정상적으로 진행할 수 있었는데 openpose를 빌드하는 과정에서(아마 CUDA version때문에) 오류가 있어서 획득한 프레임에 colab에서 실행시켜서 얻은 2d body keypoint의 .json파일을 받아 실행하기로 했다. (목적은 SMPLify-x를 돌리는 것이니)</p>
+
+<h3 id="1-프레임-추출">1. 프레임 추출</h3>
+
+<p>!ffmpeg -i “$VIDEO_PATH” -vf fps=$FPS -qscale:v 2 ‘$FRAMES_DIR/%05d.png’</p>
+
+<p>ffmpeg를 이용해 쉽게 비디오에서 프레임들을 추출할 수 있었다.</p>
+
+<p>참고로 이 글에 표시한 과정을 하려면 어차피 colab에서 프레임을 추출하는 과정이 있어 거기서 따와도 전혀 무방하다</p>
+
+<p>참조 : ffmpeg documentation</p>
+
+<p><a href="https://ffmpeg.org/ffmpeg.html">https://ffmpeg.org/ffmpeg.html</a></p>
+
+<h3 id="2-openpose-이용-2d-body-keypoint-추출">2. Openpose 이용 2D body keypoint 추출</h3>
+
+<p>사실 굳이 colab에서 openpose를 돌리는 이유는 열심히 smplify-x 세팅을 해놨는데 dependency가 깨질 것만 같아서 무서워서였다… 위에 링크해둔 colab을 차례대로 실행시키다가</p>
+
+<center><img src="\assets\img\smplify-x1\1.png" width="80%" height="80%" /></center>
+
+<p>이 부분을 지나면 keypoint들이 저장된다.</p>
+
+<p>ls로 저장되있는 파일들을 확인했다.</p>
+
+<center><img src="\assets\img\smplify-x1\2.png" width="80%" height="80%" /></center>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">!</span><span class="n">cd</span> <span class="n">openpose</span> <span class="o">&amp;&amp;</span> <span class="p">.</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">openpose</span><span class="o">/</span><span class="n">openpose</span><span class="p">.</span><span class="nb">bin</span> <span class="o">--</span><span class="n">image_dir</span> <span class="err">$</span><span class="n">FRAMES_DIR</span> <span class="o">--</span><span class="n">write_json</span> <span class="err">$</span><span class="n">KEYPOINTS_DIR</span> <span class="o">--</span><span class="n">face</span> <span class="o">--</span><span class="n">hand</span> <span class="o">--</span><span class="n">display</span> <span class="mi">0</span>   <span class="o">--</span><span class="n">write_images</span> <span class="err">$</span><span class="n">OPENPOSE_IMAGES_DIR</span>
+
+</code></pre></div></div>
+
+<p>openpose를 실행시킨 명령어인데 아마 앞에서의</p>
+
+<p>KEYPOINTS_DIR = os.path.join(RES_DIR, ‘keypoints’)</p>
+
+<p>OPENPOSE_IMAGES_DIR = os.path.join(RES_DIR, ‘openpose_images’)</p>
+
+<p>이 폴더 안에 openpose의 output이 저장되는 듯해 이를 다운로드 받았다.</p>
+
+<center><img src="\assets\img\smplify-x1\3.png" width="80%" height="80%" /></center>
+
+<center><img src="\assets\img\smplify-x1\4.png" width="80%" height="80%" /></center>
+
+<p>다운로드된 keypoint와 rendered image 확인</p>
+
+<h3 id="3-run-smplify-x">3. RUN SMPLify-x!</h3>
+
+<p>크고작은 troubleshooting 과정이 있었다… 최대한 정리하면서 하려고 했는데 아래에 정리했다.</p>
+
+<p>패키지 하나하나 깔때마다 dependency 깨질까봐 엄청 걱정했는데 다행히 삐걱대지만 잘 돌아간다.</p>
+
+<p>colab에 있던 smplify-x 하고 dependency 설치과정은 아래와 같았다.</p>
+
+<p>conda 환경 설정</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create -n smplify-x python=3.7
+conda activate smplify-x
+</code></pre></div></div>
+
+<p>smplify-x / dependency 설치과정</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># @title Install SMPLify-X and other dependencies
+</span>
+<span class="o">%</span><span class="n">cd</span> <span class="o">/</span><span class="n">content</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">chumpy</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">smplx</span>
+<span class="err">!</span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">vchoutas</span><span class="o">/</span><span class="n">smplx</span>
+<span class="o">%</span><span class="n">cd</span> <span class="n">smplx</span>
+<span class="err">!</span><span class="n">python</span> <span class="n">setup</span><span class="p">.</span><span class="n">py</span> <span class="n">install</span>
+
+<span class="c1">#vposer
+</span><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">nghorbani</span><span class="o">/</span><span class="n">configer</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">sergeyprokudin</span><span class="o">/</span><span class="n">human_body_prior</span>
+
+<span class="c1"># !pip install torch==1.1.0   이 부분은 패스했다.
+</span><span class="o">%</span><span class="n">cd</span> <span class="o">/</span><span class="n">content</span>
+<span class="err">!</span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">sergeyprokudin</span><span class="o">/</span><span class="n">smplify</span><span class="o">-</span><span class="n">x</span>
+<span class="o">%</span><span class="n">cd</span> <span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">smplify</span><span class="o">-</span><span class="n">x</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="p">.</span><span class="n">txt</span>
+</code></pre></div></div>
+
+<p>여기서 torch부분을 뺐는데 1.1.0버전에 대한 지원이 안된 점도 있었고 이미 smplx설치 과정에서 dependency로 torch 최신버전이 깔려서 패스해줬다.</p>
+
+<p>코드 실행시키기 전에 smplify model하고 vposer 파일을 넣어줘야한다. smplify 공식 사이트에서 받을 수 있다. <a href="https://smpl-x.is.tue.mpg.de/">smplify-x project page</a></p>
+
+<p>대망의 main.py 실행</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python smplifyx/main.py --config cfg_files/fit_smplx.yaml --data_folder ./smplifyx/data --output_folder ./smplifyx/output --visualize=False --gender='male' --model_folder ./smplifyx/models/models --vposer_ckpt ./smplifyx/vposer/vposer_v1_0
+</code></pre></div></div>
+
+<p>./smplifyx/data 폴더에 1, 2번 과정에서 나온 images, keypoints들을 폴더를 만들어 정리해줘야 한다.</p>
+
+<p>–gender에서 성별 옵션 주면 되고 –model_folder, –vposer_ckpt에 다운받은 model하고 vposer 저장 위치를 넣어줘야 한다.</p>
+
+<p>근데 이러고 끝은 아니었고… 많은 힘든 과정들이 아래와 같이 있었다.</p>
+
+<p>dotmap 관련</p>
+
+<p><a href="https://copypaste.guru/WhereIsMyPythonModule/how-to-fix-modulenotfounderror-no-module-named-dotmap">https://copypaste.guru/WhereIsMyPythonModule/how-to-fix-modulenotfounderror-no-module-named-dotmap</a></p>
+
+<p>torch penetration 설정</p>
+
+<p><a href="https://github.com/vchoutas/smplify-x/issues/9">https://github.com/vchoutas/smplify-x/issues/9</a></p>
+
+<p>issue에서는 torch-mesh-isect를 따로 설치하라고 했으나 아래 방법처럼 간단하게 penetration 옵션을 끄는걸로 타협</p>
+
+<center><img src="\assets\img\smplify-x1\5.png" width="80%" height="80%" /></center>
+
+<p>torch 내부 subtract 표기 문제</p>
+
+<p><a href="https://stackoverflow.com/questions/65637222/runtimeerror-subtraction-the-operator-with-a-bool-tensor-is-not-supported">https://stackoverflow.com/questions/65637222/runtimeerror-subtraction-the-operator-with-a-bool-tensor-is-not-supported</a></p>
+
+<p>Library “GLU” not found.</p>
+
+<p><a href="https://data-newbie.tistory.com/710">https://data-newbie.tistory.com/710</a></p>
+
+<p>Display 관련 오류?</p>
+
+<center><img src="\assets\img\smplify-x1\6.png" width="80%" height="80%" /></center>
+
+<p>Display 관련된 오류같은데… 정확히 어떤것때문에 문제가 생긴지는 모르겠지만 pyglet이나 render관련된 내용이 있는걸로 봐서 visualize를 따로 해주는 거에 대한 문제인 것 같다. 이 문제가 있을 때 visualization에 True 옵션을 주면 프레임 한개만 준 상태에서 프로그램이 끝나버려서 나는 False옵션을 주었다. 내 생각에 ubuntu desktop환경에서 돌렸다면 여기서 부딪히지 않았을 것 같다.</p>
+
+<p>다만 False 옵션을 주었더니 Output으로 Render된 모습은 따로 보여주지 않는다.</p>
+
+<hr />
+
+<h3 id="output">Output</h3>
+
+<center><img src="\assets\img\smplify-x1\7.png" width="80%" height="80%" /></center>
+
+<p>다음과 같은 구조로 Output이 나온다. images에는 아마 사진에 겹쳐서 랜더한 결과가 나오지 않았을까 싶은데 visualization에 False옵션을 줘서 따로 나오지 않았다.</p>
+
+<p>meshes에는 각 프레임별로 .obj 결과로, results에는 .pkl파일로 결과물이 나온다.</p>
+
+<p><strong>성공 Case</strong></p>
+
+<p>알기 쉬운 자세에서는 mesh가 input이미지랑 비슷한 형태로 잘 나왔다.</p>
+
+<center><img src="\assets\img\smplify-x1\8.png" width="80%" height="80%" /></center>
+
+<p><strong>실패 Case</strong></p>
+
+<p>하지만 blur가 있거나 꼬인 위치에서는 잘 맞지 않는 모습을 보였다.</p>
+
+<center><img src="\assets\img\smplify-x1\10.png" width="80%" height="80%" /></center>
+
+<hr />
+
+<h3 id="future-work">Future Work</h3>
+
+<p>몇몇 결과물에서 texture도 포함된 Output을 보여줬던 것 같은데 그렇지 못해서 body model 복원 method 중 texture정보를 포함한 다른 코드들을 돌려보며 확인해봐야할 것 같다.</p>
+
+<p>워낙 빠르게 발전하는 분야이다 보니까 SMPLify-X보다 상대적으로 최근 모델들을 돌리면서 비교해봐야할 것 같다.</p>
+
+<p>RGB-D Video Input의 SCANimate를 다음에는 돌려볼 수 있을 것 같다.</p>
+
+<p>중간중간 troubleshooting과정에서 몇 가지 term (특히 penetration 옵션)을 누락시킬수밖에 없었는데 결과에 악영향을 끼쳤을 것 같다는 생각이 든다. 지금 연구실 server 상황에서 적용 가능한 방법들을 생각해봐야겠다.</p>
+
+<p>mesh output을 겹쳐서 render해준 사진도 나왔으면 좋았겠는데 하는 아쉬움이 남는다.</p>
+
+<hr />
+
+<h3 id="reference">Reference</h3>
+
+<p><a href="https://github.com/vchoutas/smplify-x#visualizing-results">SMPLify-X Github</a></p>
+
+<p><a href="https://ps.is.tuebingen.mpg.de/uploads_file/attachment/attachment/497/SMPL-X.pdf">SMPLify-X Paper</a></p>
+
+<p><a href="https://smpl-x.is.tue.mpg.de/">SMPLify-X Project Page </a></p>
+
+<p><a href="https://github.com/sergeyprokudin/smplpix">SMPLpix Github</a></p>
+
+<p>SMPLpix에서 제공해준 notebook파일로부터 정말 많은 도움을 받았다!</p>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Avatar" /><category term="Avatar" /><category term="Deep Learning" /><category term="Running Code" /><summary type="html"><![CDATA[Run SMPLify-X Demo code]]></summary></entry><entry><title type="html">Run SCANimate (CVPR 2021)</title><link href="https://hailsong.github.io/avatar/Run-SCANimate-1/" rel="alternate" type="text/html" title="Run SCANimate (CVPR 2021)" /><published>2022-06-30T00:00:00+00:00</published><updated>2022-07-05T17:06:01+00:00</updated><id>https://hailsong.github.io/avatar/Run%20SCANimate-1</id><content type="html" xml:base="https://hailsong.github.io/avatar/Run-SCANimate-1/"><![CDATA[<h2 id="scanimate">SCANimate</h2>
+
+<p>SCANimate: Weakly Supervised Learning of Skinned Clothed Avatar Networks (CVPR 2021 Oral)</p>
+
+<p><a href="https://scanimate.is.tue.mpg.de/">SCANimate Project Page</a></p>
+
+<p>SCANimate는 3D Human model generation에 대해 깊고 다양한 연구를 하는 Max-Planck-Gesellschaft 에서 연구된 논문으로 Weakly Supervised Learning을 통해 구멍이나 부족한 부분이 있는 여러 Raw Scan Data를 통해 얻은 Input Data로 옷을 포함한 상태의 Animatable 한 full body avatar를 만드는 내용의 논문이다.</p>
+
+<p>model의 main figure는 다음과 같다.</p>
+
+<center><img src="\assets\img\scanimate_1\1.png" width="80%" height="80%" /></center>
+
+<hr />
+
+<h2 id="scanimate-demo-code">SCANimate Demo Code</h2>
+
+<p><a href="https://github.com/shunsukesaito/SCANimate">SCANimate Github</a></p>
+
+<p>SCANimate Github page에서는 raw scan data들로 논문에서 제시하는 human 3d model인 1) scanimat을 만드는 코드와 2) pose 데이터를 이용해 frame별 자세를 만드는 코드, 그리고 3) Rendering하여 보여주는 코드를 제공하고 있다. Github에서 제공하는 코드를 실행시키는 과정을 정리했다.</p>
+
+<p>개발 환경 : Ubuntu 18.04, CUDA10.1, Conda</p>
+
+<p>(CUDA 10.0짜리 container로하다가 다시 했다…)</p>
+
+<ul>
+  <li>
+    <p>Installation.txt</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. Setup virtual environment:
+Go to the scanimate directory in the command line, then
+$ source ./install.sh
+If you use other python and cuda versions (default python3.6 cuda 10.1), please change the cuda version and python version in ./install.sh
+  
+2. Download the smpl model:
+Download smpl models from https://smpl.is.tue.mpg.de/, put them into models folder under ./scanimate/smpl/models/smpl
+By default we use 10 PCA models and .pkl format.
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>install.sh</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#/bin/bash
+echo "Set up virtualenv for scanimate..."
+virtualenv -p python3.6 ./venv/scanimate
+. ./venv/scanimate/bin/activate
+  
+echo "Installing torch..."
+echo "If you are using other versions (default python3.6 cuda 10.1), change the cuda version and python version in ./install.sh"
+pip install torch==1.7.1+cu101 torchvision==0.8.2+cu101 torchaudio==0.7.2 -f https://download.pytorch.org/whl/torch_stable.html
+  
+echo "Installing pytorch3d..."
+echo "If you are using other versions (default python3.6 cuda 10.1), change the cuda version and python version in ./install.sh"
+pip install pytorch3d -f https://dl.fbaipublicfiles.com/pytorch3d/packaging/wheels/py36_cu101_pyt171/download.html
+  
+echo "Installing other dependencies..."
+pip install -r requirements.txt
+  
+echo "Installing customized smpl code"
+cd smpl
+python3 setup.py install
+cd ../
+  
+echo "Done!"
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>requirement.txt</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>numpy==1.19.5
+trimesh==3.9.20
+matplotlib==3.3.4
+scikit-image==0.17.2
+pyyaml==5.4.1
+chumpy==0.70
+tqdm==4.61.1
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>코드에서 제공하는 설치 방법은 installation.txt에 따르면 install.sh를 통해 설치하라고 되어있는데 이전에 smplify-x를 설치할 때에 pytorch3d 설치 과정에서 문제를 겪었던 과정을 생각하여 dependency가 안꼬이길 바라면서 virtualenv가 아닌 conda를 사용하여 가상환경을 구축하였다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create -n smplify-x python=3.6
+conda activate smplify-x
+</code></pre></div></div>
+
+<p>pytorch3d를 막 설치하다보니까</p>
+
+<p>ImportError: /home/dlituiev/.conda/envs/torch3d/lib/python3.7/site-packages/pytorch3d/_C.cpython-37m-x86_64-linux-gnu.so: undefined symbol: _ZN3c104impl23ExcludeDispatchKeyGuardC1ENS_11DispatchKeyE</p>
+
+<p>와 같은 Error가 있었는데</p>
+
+<p><a href="https://github.com/facebookresearch/pytorch3d/issues/495">https://github.com/facebookresearch/pytorch3d/issues/495</a></p>
+
+<p>를 참조해 해결했다.</p>
+
+<p>install.sh를 바로 실행하지 말고</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda install -c pytorch pytorch=1.7.0 torchvision cudatoolkit=10.1
+conda install -c conda-forge -c iopath fvcore iopath
+conda install -c pytorch3d pytorch3d
+</code></pre></div></div>
+
+<p>를 이용해 conda로 pytorch3d를 설치해줬다.</p>
+
+<p>pytorch3d를 설치한 뒤에는 뒤쪽 나머지 dependency를 설치해줬다.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#echo "Installing other dependencies..."
+pip install -r requirements.txt
+
+#echo "Installing customized smpl code"
+cd smpl
+python3 setup.py install
+cd ../
+
+echo "Done!"
+</code></pre></div></div>
+
+<p>그리고 아래 안내에 따라 필요한 모델들을 다운로드받아준다.</p>
+
+<p><strong>1. First download the pretrained model, some motion sequences and other files for the demo</strong></p>
+
+<ul>
+  <li>Download an AIST++ dance motion sequence for test (CC BY 4.0 license):</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ . ./download_aist_demo_motion.sh
+</code></pre></div></div>
+
+<p>This script will create a <code class="language-plaintext highlighter-rouge">data</code> folder under current directory, please make sure to put it under the <code class="language-plaintext highlighter-rouge">SCANimate</code> directory.</p>
+
+<ul>
+  <li>Download pre-trained scanimats for animation test: Please visit https://scanimate.is.tue.mpg.de/download.php, register, login, read and agree to the license and then download some demo scanimats. Unzip the zip file into <code class="language-plaintext highlighter-rouge">./data</code> directory</li>
+  <li>Download subset of CAPE data for training demo: Please visit https://scanimate.is.tue.mpg.de/download.php, register, login, read and agree to the license and then download the data for training demo. Unzip the zip file into <code class="language-plaintext highlighter-rouge">./data</code> directory.</li>
+  <li>Now you should have a <code class="language-plaintext highlighter-rouge">./data</code> directory under <code class="language-plaintext highlighter-rouge">SCANimate</code>. Within <code class="language-plaintext highlighter-rouge">./data</code> you will have 5 directories: <code class="language-plaintext highlighter-rouge">minimal_body</code>, <code class="language-plaintext highlighter-rouge">pretrained</code>, <code class="language-plaintext highlighter-rouge">pretrained_configs</code>, <code class="language-plaintext highlighter-rouge">test</code>, and <code class="language-plaintext highlighter-rouge">train</code>.</li>
+</ul>
+
+<p>또한 smpl 모델 파일들을 넣어줘야한다.</p>
+
+<p>Download the smpl model:
+Download smpl models from https://smpl.is.tue.mpg.de/, put them into models folder under ./scanimate/smpl/models/smpl
+By default we use 10 PCA models and .pkl format.</p>
+
+<p>.pkl파일 두개를 넣어줘야하는데 이때 파일 이름을 SMPL_FEMALE.pkl, SMPL_MAKE.pkl로 바꿔줘야한다. 이런식으로!</p>
+
+<center><img src="\assets\img\scanimate_1\2.png" width="80%" height="80%" /></center>
+
+<p>그 다음으로 Run animation demos에 나온대로 따라하면 된다.</p>
+
+<hr />
+
+<h3 id="run-animation-demos">Run animation demos:</h3>
+
+<p><strong>2. Now you can run the test demo with the following command:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python -m apps.test_scanimate -c ./data/pretrained_configs/release_03223_shortlong.yaml -t ./data/test/gLO_sBM_cAll_d14_mLO1_ch05
+</code></pre></div></div>
+
+<ul>
+  <li>You can replace the configuration file with other files under <code class="language-plaintext highlighter-rouge">./data/pretrained_configs/</code> to try other subjects.</li>
+  <li>You can also replace the test motions with others under <code class="language-plaintext highlighter-rouge">./data/test</code>.</li>
+  <li>The result will be generated under <code class="language-plaintext highlighter-rouge">./demo_result/results_test</code>.</li>
+</ul>
+
+<p><strong>3. The generated mesh sequences can be rendered with the code under <code class="language-plaintext highlighter-rouge">./demo_result</code></strong>:</p>
+
+<p>First, install Open3D (for rendering the results) by:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ pip install open3d==0.12.0
+</code></pre></div></div>
+
+<p>Then run:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python render/render_aist.py -i demo_result/results_test/release_03223_shortlong_test_gLO_sBM_cAll_d14_mLO1_c
+</code></pre></div></div>
+
+<p>apps.test_scanimate를 실행할 때 몇 가지 오류가 났는데 아래에 정리해놨다.</p>
+
+<p>$ python -m apps.test_scanimate -c ./data/pretrained_configs/release_03223_shortlong.yaml -t ./data/test/gLO_sBM_cAll_d14_mLO1_ch05 부분을 통과하면 ./demo_result/results_test에 애니메이션을 만들기 위한 각 프레임이 생긴다.</p>
+
+<center><img src="\assets\img\scanimate_1\3.png" width="80%" height="80%" /></center>
+
+<p>$ python render/render_aist.py -i demo_result/results_test/release_03223_shortlong_test_gLO_sBM_cAll_d14_mLO1_c</p>
+
+<p>open3d를 설치해서 rendering하는 과정에서 GUI를 통해 보여주면서 rendering을 하게 되는데… 이게 문제가 연구실 서버에 깔린 리눅스로 작업을 하다 보니 디스플레이장치가 없어 보여주질 못해 오류가 생기는 것 같았다.</p>
+
+<p>GLFW Error: X11: The DISPLAY environment variable is missing</p>
+
+<p>사실 FM대로라면 <a href="https://github.com/adioshun/gitBook_PCL/issues/1#issuecomment-1065382119">https://github.com/adioshun/gitBook_PCL/issues/1#issuecomment-1065382119</a>의 첫 문단에서 제시하는것과 같이 스크린을 X server로 forward해서 보여주는게 맞겠지만 귀찮아서 open3d사용하는 코드부터는 결과를 연구실 윈도우 컴퓨터로 가져와서 돌렸다.</p>
+
+<center><img src="\assets\img\scanimate_1\4.png" width="80%" height="80%" /></center>
+
+<p>코드 뒷부분에 ffmpeg랑 rm을 사용하는 부분이 있는데 아래 블로그를 보면서 ffmpeg를 해결했고, rm부분은 중간에 동영상 연결하면서 남는 이미지 파일에 대한것인데 크게 중요하지 않아서 주석처리했다.</p>
+
+<p><a href="https://www.lainyzine.com/ko/article/how-to-install-ffmpeg-on-windows-10/">https://www.lainyzine.com/ko/article/how-to-install-ffmpeg-on-windows-10/</a></p>
+
+<p><a href="https://www.lainyzine.com/ko/article/how-to-install-package-manager-chocolatey-on-windows-10/">https://www.lainyzine.com/ko/article/how-to-install-package-manager-chocolatey-on-windows-10/</a></p>
+
+<hr />
+
+<h3 id="설치-시-만났던-오류-troubleshooting">설치 시 만났던 오류 troubleshooting</h3>
+
+<ul>
+  <li>
+    <p><a href="https://stackoverflow.com/questions/60648478/oserror-libusb-1-0-so-cannot-open-shared-object-file-no-such-file-or-director">OSError: libusb-1.0.so: cannot open shared object file: No such file or directory while building docs in readthedocs</a></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get -y install libusb-1.0-0-dev
+</code></pre></div>    </div>
+
+    <p>로 해결</p>
+  </li>
+  <li>
+    <p><a href="https://www.inflearn.com/questions/57362">ImportError: libGL.so.1: cannot open shared object file: No such file or directory</a></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install libgl1-mesa-glx
+</code></pre></div>    </div>
+
+    <p>opencv import하는 과정에서 발생했던 오류</p>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="output">Output</h3>
+
+<center><img src="\assets\img\scanimate_1\3.png" width="80%" height="80%" /></center>
+
+<p>각 프레임별로 obj 파일이 이런식으로 나왔고</p>
+
+<center><img src="\assets\img\scanimate_1\5.gif" width="80%" height="80%" /></center>
+
+<p>요런식으로 랜더링이 됐다.</p>
+
+<hr />
+
+<h3 id="future-work">Future Work</h3>
+
+<p>논문에서는 texture에 대한 내용이 있었는데 코드에는 포함되어있지 않은 것 같았다.</p>
+
+<p>texture에 대해 reference삼은 아래 논문들을 확인해봐야할 것 같다.</p>
+
+<p>Jingwei Huang, Justus Thies, Angela Dai, Abhijit Kundu,
+Chiyu Max Jiang, Leonidas J. Guibas, Matthias Nießner, and
+Thomas A. Funkhouser. Adversarial texture optimization
+from RGB-D scans. In 2020 IEEE/CVF Conference on
+Computer Vision and Pattern Recognition, CVPR 2020,
+Seattle, WA, USA, June 13-19, 2020, pages 1556–1565. IEEE,
+2020</p>
+
+<p>Michael Oechsle, Lars M. Mescheder, Michael Niemeyer,
+Thilo Strauss, and Andreas Geiger. Texture fields: Learning
+texture representations in function space. In 2019 IEEE/CVF
+International Conference on Computer Vision, ICCV 2019,
+Seoul, Korea (South), October 27 - November 2, 2019, pages
+4530–4539. IEEE, 2019.</p>
+
+<p>Shunsuke Saito, Zeng Huang, Ryota Natsume, Shigeo
+Morishima, Hao Li, and Angjoo Kanazawa. PIFu: Pixelaligned
+implicit function for high-resolution clothed human
+digitization. In 2019 IEEE/CVF International Conference on
+Computer Vision, ICCV 2019, Seoul, Korea (South), October
+27 - November 2, 2019, pages 2304–2314. IEEE, 2019. 3</p>
+
+<p>사족으로 mpg에서 제공해준 input raw scan data가 생각보다 깔끔해서 결과가 잘 나오는게 아닌가 라는 생각이 들었다.</p>
+
+<center><img src="\assets\img\scanimate_1\6.gif" width="80%" height="80%" /></center>
+
+<p>손 부분만 구멍이 나고 이런식으로 거의 되있어서 나중에 scan data를 직접 획득한걸로 데모해볼 수 있으면 해볼 필요가 있겠다.</p>
+
+<hr />
+
+<h3 id="reference">Reference</h3>
+
+<p><a href="https://scanimate.is.tue.mpg.de/">SCANimate Project Page</a></p>
+
+<p><a href="https://github.com/shunsukesaito/SCANimate">SCANimate Github</a></p>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Avatar" /><category term="Avatar" /><category term="Deep Learning" /><summary type="html"><![CDATA[Run SCANimate Demo code]]></summary></entry><entry><title type="html">Probability and Statistics (1) - Summary (CH.2 ~ CH.7)</title><link href="https://hailsong.github.io/coursework%20-%202022-1/Probability-and-Statistics-Summary/" rel="alternate" type="text/html" title="Probability and Statistics (1) - Summary (CH.2 ~ CH.7)" /><published>2022-04-18T00:00:00+00:00</published><updated>2022-04-18T17:06:01+00:00</updated><id>https://hailsong.github.io/coursework%20-%202022-1/Probability%20and%20Statistics%20Summary</id><content type="html" xml:base="https://hailsong.github.io/coursework%20-%202022-1/Probability-and-Statistics-Summary/"><![CDATA[<p>Summary for mid term of CC511, Probability and Statistics</p>
+
+<ul>
+  <li>
+    <p>CH.2</p>
+
+    <center><img src="\assets\img\statistics\ch2.jpg" width="80%" height="80%" /></center>
+  </li>
+  <li>
+    <p>CH.3</p>
+
+    <center><img src="\assets\img\statistics\ch3.jpg" width="80%" height="80%" /></center>
+  </li>
+  <li>
+    <p>CH.4</p>
+
+    <center><img src="\assets\img\statistics\ch4.jpg" width="80%" height="80%" /></center>
+  </li>
+  <li>
+    <p>CH.5</p>
+
+    <center><img src="\assets\img\statistics\ch5.jpg" width="80%" height="80%" /></center>
+  </li>
+  <li>
+    <p>CH.7</p>
+
+    <center><img src="\assets\img\statistics\ch7.jpg" width="80%" height="80%" /></center>
+  </li>
+</ul>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Coursework - 2022-1" /><category term="coursework" /><category term="cc511" /><category term="statistics" /><category term="probability" /><summary type="html"><![CDATA[Probability and Statistics summary for (Ch.2 ~ CH.7), KAIST CC511 관련 자료]]></summary></entry><entry><title type="html">LeetCode (16) - Construct Binary Tree from Preorder and Inorder Traversal(파이썬, python)</title><link href="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-16/" rel="alternate" type="text/html" title="LeetCode (16) - Construct Binary Tree from Preorder and Inorder Traversal(파이썬, python)" /><published>2021-10-20T00:00:00+00:00</published><updated>2021-10-20T17:06:01+00:00</updated><id>https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-16</id><content type="html" xml:base="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-16/"><![CDATA[<h3 id="-문제">❓ 문제</h3>
+
+<ul>
+  <li>
+    <p>Given two integer arrays <code class="language-plaintext highlighter-rouge">preorder</code> and <code class="language-plaintext highlighter-rouge">inorder</code> where <code class="language-plaintext highlighter-rouge">preorder</code> is the preorder traversal of a binary tree and <code class="language-plaintext highlighter-rouge">inorder</code> is the inorder traversal of the same tree, construct and return <em>the binary tree</em>.</p>
+
+    <p><strong>Example 1:</strong></p>
+
+    <p><img src="https://assets.leetcode.com/uploads/2021/02/19/tree.jpg" alt="img" /></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+Output: [3,9,20,null,null,15,7]
+</code></pre></div>    </div>
+
+    <p><strong>Example 2:</strong></p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: preorder = [-1], inorder = [-1]
+Output: [-1]
+</code></pre></div>    </div>
+
+    <p><strong>Constraints:</strong></p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">1 &lt;= preorder.length &lt;= 3000</code></li>
+      <li><code class="language-plaintext highlighter-rouge">inorder.length == preorder.length</code></li>
+      <li><code class="language-plaintext highlighter-rouge">-3000 &lt;= preorder[i], inorder[i] &lt;= 3000</code></li>
+      <li><code class="language-plaintext highlighter-rouge">preorder</code> and <code class="language-plaintext highlighter-rouge">inorder</code> consist of <strong>unique</strong> values.</li>
+      <li>Each value of <code class="language-plaintext highlighter-rouge">inorder</code> also appears in <code class="language-plaintext highlighter-rouge">preorder</code>.</li>
+      <li><code class="language-plaintext highlighter-rouge">preorder</code> is <strong>guaranteed</strong> to be the preorder traversal of the tree.</li>
+      <li><code class="language-plaintext highlighter-rouge">inorder</code> is <strong>guaranteed</strong> to be the inorder traversal of the tree.</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="given-code">Given Code</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+</span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">buildTree</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">preorder</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">inorder</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TreeNode</span><span class="p">]:</span>
+        
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="내-풀이">내 풀이</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">buildTree</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">preorder</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">preorder</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="nc">TreeNode</span><span class="p">(</span><span class="n">val</span><span class="o">=</span><span class="n">now</span><span class="p">)</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">inorder</span><span class="p">.</span><span class="nf">index</span><span class="p">(</span><span class="n">now</span><span class="p">)</span>
+
+            <span class="n">left_len</span> <span class="o">=</span> <span class="n">index</span>
+            <span class="n">right_len</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">preorder</span><span class="p">)</span> <span class="o">-</span> <span class="n">left_len</span> <span class="o">-</span> <span class="mi">1</span>
+
+            <span class="n">left_i</span> <span class="o">=</span> <span class="n">inorder</span><span class="p">[:</span><span class="n">index</span><span class="p">]</span>
+            <span class="c1"># print(now)
+</span>            <span class="c1"># print('---', now, '---')
+</span>            <span class="n">left_p</span> <span class="o">=</span> <span class="n">preorder</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="n">left_len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># print(left_p, left_i)
+</span>            <span class="n">node</span><span class="p">.</span><span class="n">left</span> <span class="o">=</span> <span class="nf">build</span><span class="p">(</span><span class="n">left_p</span><span class="p">,</span> <span class="n">left_i</span><span class="p">)</span>
+
+            <span class="n">right_i</span> <span class="o">=</span> <span class="n">inorder</span><span class="p">[</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+            <span class="n">right_p</span> <span class="o">=</span> <span class="n">preorder</span><span class="p">[</span><span class="n">left_len</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+            <span class="c1"># print(right_p, right_i)
+</span>            <span class="n">node</span><span class="p">.</span><span class="n">right</span> <span class="o">=</span> <span class="nf">build</span><span class="p">(</span><span class="n">right_p</span><span class="p">,</span> <span class="n">right_i</span><span class="p">)</span>
+
+            <span class="c1"># print(node.val, node.left, node.right)
+</span>            <span class="k">return</span> <span class="n">node</span>
+
+        <span class="k">return</span> <span class="nf">build</span><span class="p">(</span><span class="n">preorder</span><span class="p">,</span> <span class="n">inorder</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>중간중간 주석처리된 print는 디버깅용으로 만든 부분이다.</p>
+
+<p>정리를 잘 해주셔서 참고를 하면서 풀었다!</p>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Algorithm - LeetCode" /><category term="code" /><category term="algorithm" /><summary type="html"><![CDATA[python으로 leetcode 풀기, Construct Binary Tree from Preorder and Inorder Traversal]]></summary></entry><entry><title type="html">LeetCode (14) - Binary Tree Inorder Traversal(파이썬, python)</title><link href="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-14/" rel="alternate" type="text/html" title="LeetCode (14) - Binary Tree Inorder Traversal(파이썬, python)" /><published>2021-10-14T00:00:00+00:00</published><updated>2021-10-14T17:06:00+00:00</updated><id>https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-14</id><content type="html" xml:base="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-14/"><![CDATA[<h3 id="-문제">❓ 문제</h3>
+
+<p>Given the <code class="language-plaintext highlighter-rouge">root</code> of a binary tree, return <em>the inorder traversal of its nodes’ values</em>.</p>
+
+<p><strong>Example 1:</strong></p>
+
+<p><img src="https://assets.leetcode.com/uploads/2020/09/15/inorder_1.jpg" alt="img" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: root = [1,null,2,3]
+Output: [1,3,2]
+</code></pre></div></div>
+
+<p><strong>Example 2:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: root = []
+Output: []
+</code></pre></div></div>
+
+<p><strong>Example 3:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: root = [1]
+Output: [1]
+</code></pre></div></div>
+
+<p><strong>Example 4:</strong></p>
+
+<p><img src="https://assets.leetcode.com/uploads/2020/09/15/inorder_5.jpg" alt="img" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: root = [1,2]
+Output: [2,1]
+</code></pre></div></div>
+
+<p><strong>Example 5:</strong></p>
+
+<p><img src="https://assets.leetcode.com/uploads/2020/09/15/inorder_4.jpg" alt="img" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: root = [1,null,2]
+Output: [1,2]
+</code></pre></div></div>
+
+<p><strong>Constraints:</strong></p>
+
+<ul>
+  <li>The number of nodes in the tree is in the range <code class="language-plaintext highlighter-rouge">[0, 100]</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">-100 &lt;= Node.val &lt;= 100</code></li>
+</ul>
+
+<p><strong>Follow up:</strong> Recursive solution is trivial, could you do it iteratively?</p>
+
+<hr />
+
+<h3 id="given-code">Given Code</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+</span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">inorderTraversal</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TreeNode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="내-풀이">내 풀이</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+</span>
+
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">inorderTraversal</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span> <span class="c1"># Optional[TreeNode]) -&gt; List[int]:
+</span>        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">def</span> <span class="nf">inorder</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="bp">None</span>
+            <span class="nf">inorder</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">left</span><span class="p">)</span>
+            <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">val</span><span class="p">)</span>
+            <span class="nf">inorder</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">right</span><span class="p">)</span>
+
+        <span class="nf">inorder</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></div>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Algorithm - LeetCode" /><category term="code" /><category term="algorithm" /><summary type="html"><![CDATA[python으로 leetcode 풀기, Binary Tree Inorder Traversal]]></summary></entry><entry><title type="html">LeetCode (15) - Binary Tree Zigzag Level Order Traversal(파이썬, python)</title><link href="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-15/" rel="alternate" type="text/html" title="LeetCode (15) - Binary Tree Zigzag Level Order Traversal(파이썬, python)" /><published>2021-10-14T00:00:00+00:00</published><updated>2021-10-14T17:06:01+00:00</updated><id>https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-15</id><content type="html" xml:base="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-15/"><![CDATA[<h3 id="-문제">❓ 문제</h3>
+
+<p>Given the <code class="language-plaintext highlighter-rouge">root</code> of a binary tree, return <em>the zigzag level order traversal of its nodes’ values</em>. (i.e., from left to right, then right to left for the next level and alternate between).</p>
+
+<p><strong>Example 1:</strong></p>
+
+<p><img src="https://assets.leetcode.com/uploads/2021/02/19/tree1.jpg" alt="img" /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: root = [3,9,20,null,null,15,7]
+Output: [[3],[20,9],[15,7]]
+</code></pre></div></div>
+
+<p><strong>Example 2:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: root = [1]
+Output: [[1]]
+</code></pre></div></div>
+
+<p><strong>Example 3:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: root = []
+Output: []
+</code></pre></div></div>
+
+<p><strong>Constraints:</strong></p>
+
+<ul>
+  <li>The number of nodes in the tree is in the range <code class="language-plaintext highlighter-rouge">[0, 2000]</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">-100 &lt;= Node.val &lt;= 100</code></li>
+</ul>
+
+<hr />
+
+<h3 id="given-code">Given Code</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+</span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">zigzagLevelOrder</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">root</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">TreeNode</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="내-풀이">내 풀이</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+</span><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">zigzagLevelOrder</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span><span class="c1"># Optional[TreeNode]) -&gt; List[List[int]]:
+</span>        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">def</span> <span class="nf">q</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">node</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">level</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">.</span><span class="nf">append</span><span class="p">([])</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="nf">append</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">val</span><span class="p">)</span>
+            <span class="nf">q</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">left</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="nf">q</span><span class="p">(</span><span class="n">node</span><span class="p">.</span><span class="n">right</span><span class="p">,</span> <span class="n">level</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="nf">q</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        
+        
+        <span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">cnt</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">result</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">cnt</span> <span class="o">%</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">result</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">cnt</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">result</span>
+</code></pre></div></div>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Algorithm - LeetCode" /><category term="code" /><category term="algorithm" /><summary type="html"><![CDATA[python으로 leetcode 풀기, Binary Tree Zigzag Level Order Traversal]]></summary></entry><entry><title type="html">논문 읽기(1) - Body2Hands: Learning to Infer 3D Hands from Conversational Gesture Body Dynamics (CVPR 2021)</title><link href="https://hailsong.github.io/paper%20review/PaperReview-1/" rel="alternate" type="text/html" title="논문 읽기(1) - Body2Hands: Learning to Infer 3D Hands from Conversational Gesture Body Dynamics (CVPR 2021)" /><published>2021-09-24T00:00:00+00:00</published><updated>2021-09-24T17:06:00+00:00</updated><id>https://hailsong.github.io/paper%20review/PaperReview-1</id><content type="html" xml:base="https://hailsong.github.io/paper%20review/PaperReview-1/"><![CDATA[<h3 id="논문-읽기">논문 읽기</h3>
+
+<p>근본없이 필요한 부분만 공부하고 사용하는 모습이 무서워져 논문 읽기 연습을 조금씩 해보는 겸 정리를 해보고자 한다! 무지한 기계과 학부 졸업생이 나름대로 읽은 내용을 정리하는 것인지라 많이 부족할텐데 혹시 잘못되거나 표현이 이상한 부분이 있다면 피드백 환영합니다. 😁</p>
+
+<hr />
+
+<h3 id="개요">개요</h3>
+
+<p><img src="http://people.eecs.berkeley.edu/~evonne_ng/projects/body2hands/images/teaser.png" alt="img" /></p>
+
+<blockquote>
+  <p><strong>Body2Hands: Learning to Infer 3D Hands from Conversational Gesture Body Dynamics (CVPR 2021)</strong> 를 참조해 작성한 포스트입니다.</p>
+
+  <p>ref : <a href="http://people.eecs.berkeley.edu/~evonne_ng/projects/body2hands/">http://people.eecs.berkeley.edu/~evonne_ng/projects/body2hands/<a></a></a></p>
+</blockquote>
+
+<p>hand gesture를 분석할 때의 주된 세 가지 challenges는 occlusions, motion blur, low resolution입니다. 확실한 이미지를 얻을 수 없는 상황에서 손 외의 body pose가 hand pose와 연관되어 있다는 직관에서 시작한 논문으로 GAN을 이용해 <strong>Body Pose만으로 손의 모양을 만들어냅니다.</strong> (optional하게 손 이미지를 받을 수도 있습니다.) 특히 손의 이미지가 확실하게 잡히지 않는 상황에서 body2hands는 그 진가를 발휘하게 됩니다.</p>
+
+<center><img src="\assets\img\paper1_01.png" width="80%" height="80%" />
+<figcaption>손의 이미지가 깔끔하지 못한 예시</figcaption></center>
+
+<p>네트워크 구조는 다음 그림과 같습니다.</p>
+
+<center><img src="\assets\img\paper1_02.png" width="80%" height="80%" />
+<figcaption>네트워크 구조</figcaption></center>
+
+<p>Optional Input로 손의 이미지를 받아 Resnet으로 들어가지만 주된 input은 Body pose input입니다. body pose는 Body pose encoder, UNet, Hand pose decoder를 통해 Hand Gesture를 만들어내고(Generator 역할) 이는 L1 Loss로 평가됩니다. 또한 추측한 Hand Gesture는 discriminator로 진위 여부를 판별하는 GAN 구조를 가집니다.</p>
+
+<blockquote>
+  <p>참조</p>
+
+  <p><a href="https://idiotdeveloper.com/what-is-unet/">What is UNet?<a></a></a></p>
+
+  <p>&lt;a href=”<a href="https://idiotdeveloper.com/what-is-unet/">What is UNet?<a>“&gt;Overview of GAN Structure<a></a></a></a></p>
+</blockquote>
+
+<center><img src="\assets\img\paper1_03.png" width="40%" height="40%" />
+</center>
+
+<p>(1)의 g는 Body Pose(B)를 받아 손의 모양(H)를 출력하는 Generator로 (2) 식과 같이 L1 Loss로 평가됩니다. Dis</p>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="paper review" /><category term="deep learning" /><category term="hand gesture" /><category term="GAN" /><category term="CVPR" /><summary type="html"><![CDATA[논문 읽기, Body2Hands: Learning to Infer 3D Hands from Conversational Gesture Body Dynamics (CVPR 2021)]]></summary></entry><entry><title type="html">LeetCode (10) - Coin Change(파이썬, python)</title><link href="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-10/" rel="alternate" type="text/html" title="LeetCode (10) - Coin Change(파이썬, python)" /><published>2021-09-14T00:00:00+00:00</published><updated>2021-09-08T17:06:00+00:00</updated><id>https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-10</id><content type="html" xml:base="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-10/"><![CDATA[<h3 id="-문제">❓ 문제</h3>
+
+<p>You are given an integer array <code class="language-plaintext highlighter-rouge">coins</code> representing coins of different denominations and an integer <code class="language-plaintext highlighter-rouge">amount</code> representing a total amount of money.</p>
+
+<p>Return <em>the fewest number of coins that you need to make up that amount</em>. If that amount of money cannot be made up by any combination of the coins, return <code class="language-plaintext highlighter-rouge">-1</code>.</p>
+
+<p>You may assume that you have an infinite number of each kind of coin.</p>
+
+<p><strong>Example 1:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: coins = [1,2,5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1
+</code></pre></div></div>
+
+<p><strong>Example 2:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: coins = [2], amount = 3
+Output: -1
+</code></pre></div></div>
+
+<p><strong>Example 3:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: coins = [1], amount = 0
+Output: 0
+</code></pre></div></div>
+
+<p><strong>Example 4:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: coins = [1], amount = 1
+Output: 1
+</code></pre></div></div>
+
+<p><strong>Example 5:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: coins = [1], amount = 2
+Output: 2
+</code></pre></div></div>
+
+<p><strong>Constraints:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= coins.length &lt;= 12</code></li>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= coins[i] &lt;= 231 - 1</code></li>
+  <li><code class="language-plaintext highlighter-rouge">0 &lt;= amount &lt;= 104</code></li>
+</ul>
+
+<hr />
+
+<h3 id="given-code">Given Code</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">coinChange</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">coins</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="내-풀이">내 풀이</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">coinChange</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">coins</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">amount</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">num</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">coin</span> <span class="ow">in</span> <span class="n">coins</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">coin</span><span class="p">,</span> <span class="n">amount</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">num</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nf">min</span><span class="p">(</span><span class="n">num</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">num</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">coin</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="c1"># print(coin, i, num[i], num) # 모니터링용
+</span>        <span class="k">if</span> <span class="n">num</span><span class="p">[</span><span class="n">amount</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">amount</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">num</span><span class="p">[</span><span class="n">amount</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>잘 모르겠어서 https://velog.io/@bye9/LeetCode%ED%8C%8C%EC%9D%B4%EC%8D%AC-322.-Coin-Change 를 참고했다.</p>
+
+<p>Dynamic Programming을 이용해야하는데 감이 잘 안왔었다… d라는 배열을 만들어 최소 횟수를 체크하는것이 핵심. d[i]는 i원을 만들기 위한 최소 동전의 수 이다!</p>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Algorithm - LeetCode" /><category term="code" /><category term="algorithm" /><summary type="html"><![CDATA[python으로 leetcode 풀기, Coin Change]]></summary></entry><entry><title type="html">LeetCode (11) - Longest Increasing Subsequence(파이썬, python)</title><link href="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-11/" rel="alternate" type="text/html" title="LeetCode (11) - Longest Increasing Subsequence(파이썬, python)" /><published>2021-09-14T00:00:00+00:00</published><updated>2021-09-14T17:06:00+00:00</updated><id>https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-11</id><content type="html" xml:base="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-11/"><![CDATA[<h3 id="-문제">❓ 문제</h3>
+
+<p>Given an integer array <code class="language-plaintext highlighter-rouge">nums</code>, return the length of the longest strictly increasing subsequence.</p>
+
+<p>A <strong>subsequence</strong> is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, <code class="language-plaintext highlighter-rouge">[3,6,2,7]</code> is a subsequence of the array <code class="language-plaintext highlighter-rouge">[0,3,1,6,2,2,7]</code>.</p>
+
+<p><strong>Example 1:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: nums = [10,9,2,5,3,7,101,18]
+Output: 4
+Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+</code></pre></div></div>
+
+<p><strong>Example 2:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: nums = [0,1,0,3,2,3]
+Output: 4
+</code></pre></div></div>
+
+<p><strong>Example 3:</strong></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: nums = [7,7,7,7,7,7,7]
+Output: 1
+</code></pre></div></div>
+
+<p><strong>Constraints:</strong></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">1 &lt;= nums.length &lt;= 2500</code></li>
+  <li><code class="language-plaintext highlighter-rouge">-104 &lt;= nums[i] &lt;= 104</code></li>
+</ul>
+
+<p><strong>Follow up:</strong> Can you come up with an algorithm that runs in <code class="language-plaintext highlighter-rouge">O(n log(n))</code> time complexity?</p>
+
+<hr />
+
+<h3 id="given-code">Given Code</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">lengthOfLIS</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        
+</code></pre></div></div>
+
+<hr />
+
+<h3 id="내-풀이">내 풀이</h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">lengthOfLIS</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="n">length</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nf">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="n">length</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span><span class="n">length</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">length</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># print(nums)
+</span>        <span class="c1"># print(length)
+</span>        <span class="nf">return</span><span class="p">(</span><span class="nf">max</span><span class="p">(</span><span class="n">length</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>왜 1트성공?? ㅎㅎㅎㅎ</p>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Algorithm - LeetCode" /><category term="code" /><category term="algorithm" /><summary type="html"><![CDATA[python으로 leetcode 풀기, Longest Increasing Subsequence]]></summary></entry></feed>

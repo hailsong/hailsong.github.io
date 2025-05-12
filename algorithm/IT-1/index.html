@@ -1,0 +1,796 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.23.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="ko" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>IT 기술면접 질문들 - (1) &amp;#124 Hail Song’s Blog</title>
+<meta name="description" content="언젠가 있을지도 모르는 기술면접 대비">
+
+
+  <meta name="author" content="Hail Song">
+  
+  <meta property="article:author" content="Hail Song">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="Hail Song's Blog">
+<meta property="og:title" content="IT 기술면접 질문들 - (1)">
+<meta property="og:url" content="https://hailsong.github.io/algorithm/IT-1/">
+
+
+  <meta property="og:description" content="언젠가 있을지도 모르는 기술면접 대비">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2021-08-09T00:00:00+00:00">
+
+
+
+  <meta property="article:modified_time" content="2021-08-09T17:06:00+00:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="https://hailsong.github.io/algorithm/IT-1/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "Hail Song",
+      "url": "https://hailsong.github.io/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Hail Song's Blog Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css">
+
+<!--[if IE]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <h2 class="screen-reader-text">Skip links</h2>
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          Hail Song's Blog
+          <span class="site-subtitle">hail96@kaist.ac.kr</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="/Curriculum%20Vitae/">Curriculum Vitae</a>
+            </li><li class="masthead__menu-item">
+              <a href="/publications/">Publications</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Categories</a>
+            </li><li class="masthead__menu-item">
+              <a href="/tags/">Tags</a>
+            </li><li class="masthead__menu-item">
+              <a href="/posts/">Posts</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">토글 메뉴</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+  
+    
+
+
+
+<nav class="breadcrumbs">
+  <ol itemscope itemtype="https://schema.org/BreadcrumbList">
+    
+    
+    
+      
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="https://hailsong.github.io/" itemprop="item"><span itemprop="name">Home</span></a>
+          <meta itemprop="position" content="1" />
+        </li>
+        <span class="sep">/</span>
+      
+      
+        
+        <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <a href="/categories/#algorithm" itemprop="item"><span itemprop="name">Algorithm</span></a>
+          <meta itemprop="position" content="2" />
+        </li>
+        <span class="sep">/</span>
+      
+    
+      
+      
+        <li class="current">IT 기술면접 질문들 - (1)</li>
+      
+    
+  </ol>
+</nav>
+
+  
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person">
+
+  
+    <div class="author__avatar">
+      
+        <img src="/assets/images/avatar.png" alt="Hail Song" itemprop="image">
+      
+    </div>
+  
+
+  <div class="author__content">
+    
+      <h3 class="author__name" itemprop="name">Hail Song</h3>
+    
+    
+      <div class="author__bio" itemprop="description">
+        <p>Ph.D. Candidate at KAIST UVRlab, XR / Computer Vision / Computer Graphics Researcher</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">팔로우</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name">Daejeon, Republic of Korea</span>
+        </li>
+      
+
+      
+        
+          
+        
+          
+            <li><a href="https://uvrlab.org/" rel="nofollow noopener noreferrer"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">UVRlab</span></a></li>
+          
+        
+          
+        
+          
+        
+          
+            <li><a href="https://www.linkedin.com/in/hailsong" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span class="label">LinkedIn</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/hailsong" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://instagram.com/song.ha12" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-instagram" aria-hidden="true"></i><span class="label">Instagram</span></a></li>
+          
+        
+          
+            <li><a href="https://www.youtube.com/watch?v=hmRNMZlz974" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-youtube" aria-hidden="true"></i><span class="label">Youtube</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:hail96@kaist.ac.kr">
+            <meta itemprop="email" content="hail96@kaist.ac.kr" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">이메일</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="IT 기술면접 질문들 - (1)">
+    <meta itemprop="description" content="언젠가 있을지도 모르는 기술면접 대비">
+    <meta itemprop="datePublished" content="2021-08-09T00:00:00+00:00">
+    <meta itemprop="dateModified" content="2021-08-09T17:06:00+00:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">IT 기술면접 질문들 - (1)
+</h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 분 소요
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+        <h2 id="it-기술면접-질문들-심심할때-정리할-예정입니다">IT 기술면접 질문들, 심심할때 정리할 예정입니다.</h2>
+
+<p>https://mangkyu.tistory.com/88 참조했습니다!</p>
+
+<h2 id="oop-object-oriented-programming-ex-java-c-c-python">OOP (Object-Oriented Programming) (ex. java, C++, C#, python)</h2>
+
+<p>데이터를 객체로 취급하여 프로그램에 반영한 것으로 절차지향 프로그램이 코드 순서대로 동작하는 것과 달리 객체와 객체의 상호작용으로 동작한다.
+코드의 재사용성과 개발의 생산성이 높으며 유지보수가 편리하지만 속도가 느리고 설계/개발단계에서 많은 시간이 소요된다.</p>
+
+<h2 id="oop-4가지-특성">OOP 4가지 특성</h2>
+
+<p>추상화 : 공통의 속성이나 기능을 묶어 이름을 붙이는 것
+캡슐화 : 비슷한 속성과 메소드를 하나의 클래스로 모은 것. 은닉화는 캡슐 내부의 로직이나 변수들을 감춰 객체가 손상되지 않도록 한다. 
+상속 : 자식 클래스가 부모 클래스의 멤버를 물려받는 것. 생산성을 높이고 유지보수에 편리
+다형성 : 같은 모양의 함수가 상황에 따라 다르게 동작. 오버로딩과 오버라이딩으로 다형성을 이용할 수 있는데 오버로딩은 같은 함수 이름을 가졌지만 매개변수의 숫자나 타입을 다르게 해 구분하는 것.
+오버라이딩은 부모 클래스에서 정의된 메소드를 자식 클래스에서 재정의 하는 것</p>
+
+<h2 id="oop의-5원칙-solid">OOP의 5원칙 (SOLID)</h2>
+
+<p>Single Responsibility Principle : 한 클래스는 하나의 책임만 진다.</p>
+
+<p>Open Close Principle : 객체는 확장에는 열려있고 (Open) 변경에는 닫혀있어야 (Close) 한다.</p>
+
+<p>Liskov’s Substitution Principle : 상위형 객체는 하위형 객체로 대체할 수 있어야 한다.</p>
+
+<p>Interface Segregation Principle : 객체의 인터페이스는 하나로 통합된 것보다 여러개로 분리하는게 낫다. 사용하지 않는 메소드에 의존해선 안된다.</p>
+
+<p>Dependancy Inversion Principle : 상위 클래스는 하위 클래스에 의존해선 안되고 하위클래스는 세부 사항에 의존해선 안된다. 클래스는 추상화에 의존해야한다.</p>
+
+<h2 id="call-by-valuereference">call by value/reference</h2>
+
+<p>call by value : 원본과 다른 새로운 메모리 공간에 원본을 복사하는 것으로 복사본을 변경하여도 원본에 영향을 줄 수 없다.
+call by reference : 원본의 주소값을 넘기는 것으로 원본의 값을 변경할 수 있다.</p>
+
+<h2 id="restful-api">RESTful API</h2>
+
+<p>RESTful API : REST 아키텍처의 제약 조건을 준수하는 애플리케이션 프로그래밍 인터페이스
+REST(REpresentational State Transfer)ful API는 HTTP 통신에서 어떤 차원에 대한 CRUD 요청을 Resource와 Method로 표현하여 특정한 형태로 전달하는 방식입니다. RESTful API는 아래와 같은 것들로 구성됩니다.</p>
+
+<p>Resource(자원, URI)
+Method(요청 방식, GET or POST 등)
+Representation of Resource(자원의 형태, JSON or XML 등)</p>
+
+<h2 id="함수형-프로그래밍">함수형 프로그래밍</h2>
+
+<p>외부 값을 수정하거나 SIDE Effect 등의 부수 효과가 없는 순수 함수를 1급 객체로 간주하여 파라미터로 넘기거나 반환값으로 사용할 수 있으며, 참조 투명성을 지킬 수 있다.
+1급 객체는 변수나 데이터 구조 안에 담을 수 있고 파라미터로 전달할 수 있고 반환값으로 사용할 수 있고 할당한 이름과 무관하게 고유한 구별이 가능
+참조 투명성은 동일한 인자에 대해 동일한 결과 반환, 기존의 값을 변경하지 않고 유지. Immutable Data</p>
+
+<h2 id="메모리-구조">메모리 구조</h2>
+
+<h4 id="낮은-주소">(낮은 주소)</h4>
+
+<p>코드 영역 (프로그램의 코드)
+데이터 영역 (전역/정적 변수)
+힙 영역 (런 타임에 크기가 결정됨, 프로그래머가 직접 관리할 수 있는데 이를 동적 할당이라고 부른다. 낮-&gt;높)
+스택 영역 (컴파일 타임에 크기가 결정됨. 함수의 호출과 함께 할당되며 지역/매개 변수가 저장되는 영역. 스택영역 함수 호출 정보를 스택프레임이라 부르고 호출이 완료되면 소멸. 높-&gt;낮)</p>
+
+<h4 id="높은-주소">(높은 주소)</h4>
+
+<h2 id="parameter-vs-argument">Parameter VS Argument</h2>
+
+<p>Parameter: 함수를 선언할 때 사용된 변수 / def process(par1, par2)
+Argument: 함수가 호출되었을 때 함수의 파라미터로 전달된 실제 값 / process(par1 = arg1, par2 = arg2)</p>
+
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#algorithm" class="page__taxonomy-item" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#algorithm" class="page__taxonomy-item" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2021-08-09">August 9, 2021</time></p>
+
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">공유하기</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=IT+%EA%B8%B0%EC%88%A0%EB%A9%B4%EC%A0%91+%EC%A7%88%EB%AC%B8%EB%93%A4+-+%281%29%20https%3A%2F%2Fhailsong.github.io%2Falgorithm%2FIT-1%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhailsong.github.io%2Falgorithm%2FIT-1%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fhailsong.github.io%2Falgorithm%2FIT-1%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/algorithm/etc-1/" class="pagination--pager" title="Algorithm (1) - 다이나믹 프로그래밍 (Dynamic Programming)
+">이전</a>
+    
+    
+      <a href="/algorithm%20-%20leetcode/LeetCode-6/" class="pagination--pager" title="LeetCode (6) - Add Two Numbers (파이썬, python)
+">다음</a>
+    
+  </nav>
+
+    </div>
+
+    <div id="disqus_thread"></div>
+    <script>
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+        /*
+        var disqus_config = function () {
+        this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        */
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://hailsong-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+    
+
+  </article>
+
+  
+
+  
+    <div class="page__related">
+      <h4 class="page__related-title">참고</h4>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/study/Gaussian-Splatting-1/" rel="permalink">Run 3D Gaussian Splatting (1) - Windows에서 3D 가우시안 스플래팅 구동
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Run 3D Gaussian Splatting on windows
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/avatar/Run-SMPLify-x-1/" rel="permalink">Run SMPLify-X (CVPR 2019)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Run SMPLify-X Demo code
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/avatar/Run-SCANimate-1/" rel="permalink">Run SCANimate (CVPR 2021)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Run SCANimate Demo code
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/coursework%20-%202022-1/Probability-and-Statistics-Summary/" rel="permalink">Probability and Statistics (1) - Summary (CH.2 ~ CH.7)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          최대 1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Probability and Statistics summary for (Ch.2 ~ CH.7), KAIST CC511 관련 자료
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    <script data-ad-client="ca-pub-4455412024236606" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <div align="center" style="margin: 1em 0;">
+    <ins class="adsbygoogle"
+         style="display:block; border-bottom: initial;"
+         data-ad-client="ca-pub-4455412024236606"
+         data-ad-format="auto"></ins>
+    </div> -->
+
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>팔로우:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+          <li><a href="https://www.linkedin.com/in/hailsong" rel="nofollow noopener noreferrer"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> 피드</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2025 Hail Song. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LLKEW6ZWXP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-LLKEW6ZWXP');
+</script>
+
+
+
+
+
+
+  </body>
+</html>
