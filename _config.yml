@@ -19,7 +19,7 @@ minimal_mistakes_skin    : "mint" # "air", "aqua", "contrast", "dark", "dirt", "
 # Site Settings
 locale                   : "ko-KR"
 title                    : "Hail Song's Blog"
-title_separator          : "&#124"
+title_separator          : ""
 subtitle                 : "hail96@kaist.ac.kr"
 name                     : "Hail Song"
 description              : "Ph.D. Candidate at KAIST UVRlab, XR / Computer Vision / Computer Graphics Researcher"
