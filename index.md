@@ -6,8 +6,9 @@ permalink: /
 ---
 ## 👤 About Me
 
+
 <p align="center">
-  <img src="/assets/images/shi.png" alt="Hail Song" width="180"/>
+  <img src="/assets/images/shi.png" alt="Hail Song" width="180" style="border-radius: 12px;"/>
 </p>
 
 **Nice to meet you!** I'm Hail Song, a Ph.D. student at the [UVR Lab](https://uvrlab.org/), KAIST [Graduate School of Culture Technology](https://ct.kaist.ac.kr/), under the supervision of Prof. Woontack Woo (with a minor in the [Graduate School of Metaverse](https://meta.kaist.ac.kr/)).
