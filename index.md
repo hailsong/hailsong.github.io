@@ -23,7 +23,9 @@ If you're curious about my work or interested in collaboration, feel free to get
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/rIkaKKSqX_g?si=b-9M0I5JrcHSHo4E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-
+<video width="100%" autoplay loop muted playsinline>
+  <source src="/assets/videos/intro-video.mp4" type="video/mp4">
+</video>
 
 
 ---
