@@ -20,12 +20,11 @@ Previously, I worked as a computer vision engineer at InBody, and I have hands-o
 If you're curious about my work or interested in collaboration, feel free to get in touch!
 
 
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/rIkaKKSqX_g?si=b-9M0I5JrcHSHo4E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
 <video width="100%" autoplay loop muted playsinline>
   <source src="/assets/videos/intro-video.mp4" type="video/mp4">
 </video>
+
+ I find joy in bringing virtual humans to life through my research. Take a look at my virtual self in this video! The dancing sequence is an implementation of [LHM](https://lingtengqiu.github.io/LHM/), a fascinating recent paper, whereas the other parts are directly tied to my own research. For more details, please see my [publications](/publications/).
 
 
 ---
