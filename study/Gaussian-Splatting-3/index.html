@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>LeetCode (9) -  Jump Game(파이썬, python) - Hail Song’s Blog</title>
-<meta name="description" content="python으로 leetcode 풀기,  Jump Game">
+<!-- begin _includes/seo.html --><title>Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn) - Hail Song’s Blog</title>
+<meta name="description" content="Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)">
 
 
   <meta name="author" content="Hail Song">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="ko_KR">
 <meta property="og:site_name" content="Hail Song's Blog">
-<meta property="og:title" content="LeetCode (9) -  Jump Game(파이썬, python)">
-<meta property="og:url" content="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-9/">
+<meta property="og:title" content="Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)">
+<meta property="og:url" content="https://hailsong.github.io/study/Gaussian-Splatting-3/">
 
 
-  <meta property="og:description" content="python으로 leetcode 풀기,  Jump Game">
-
-
-
+  <meta property="og:description" content="Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)">
 
 
 
 
-  <meta property="article:published_time" content="2021-09-09T00:00:00+00:00">
 
 
 
-  <meta property="article:modified_time" content="2021-09-08T17:06:00+00:00">
+  <meta property="article:published_time" content="2025-07-30T00:00:00+00:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2025-07-30T17:06:01+00:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-9/">
+
+<link rel="canonical" href="https://hailsong.github.io/study/Gaussian-Splatting-3/">
 
 
 
@@ -183,7 +183,7 @@
       
         
         <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="/categories/#algorithm---leetcode" itemprop="item"><span itemprop="name">Algorithm   leetcode</span></a>
+          <a href="/categories/#study" itemprop="item"><span itemprop="name">Study</span></a>
           <meta itemprop="position" content="2" />
         </li>
         <span class="sep">/</span>
@@ -191,7 +191,7 @@
     
       
       
-        <li class="current">LeetCode (9) -  Jump Game(파이썬, python)</li>
+        <li class="current">Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)</li>
       
     
   </ol>
@@ -339,15 +339,15 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="LeetCode (9) -  Jump Game(파이썬, python)">
-    <meta itemprop="description" content="python으로 leetcode 풀기,  Jump Game">
-    <meta itemprop="datePublished" content="2021-09-09T00:00:00+00:00">
-    <meta itemprop="dateModified" content="2021-09-08T17:06:00+00:00">
+    <meta itemprop="headline" content="Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)">
+    <meta itemprop="description" content="Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)">
+    <meta itemprop="datePublished" content="2025-07-30T00:00:00+00:00">
+    <meta itemprop="dateModified" content="2025-07-30T17:06:01+00:00">
 
     <div class="page__inner-wrap">
       
         <header>
-          <h1 id="page-title" class="page__title" itemprop="headline">LeetCode (9) -  Jump Game(파이썬, python)
+          <h1 id="page-title" class="page__title" itemprop="headline">Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)
 </h1>
           
 
@@ -363,7 +363,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          1 분 소요
+          최대 1 분 소요
         
       </span>
     
@@ -375,65 +375,41 @@
 
       <section class="page__content" itemprop="text">
         
-        <h3 id="-문제">❓ 문제</h3>
-
-<p>You are given an integer array <code class="language-plaintext highlighter-rouge">nums</code>. You are initially positioned at the array’s <strong>first index</strong>, and each element in the array represents your maximum jump length at that position.</p>
-
-<p>Return <code class="language-plaintext highlighter-rouge">true</code> <em>if you can reach the last index, or</em> <code class="language-plaintext highlighter-rouge">false</code> <em>otherwise</em>.</p>
-
-<p><strong>Example 1:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: nums = [2,3,1,1,4]
-Output: true
-Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
-</code></pre></div></div>
-
-<p><strong>Example 2:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: nums = [3,2,1,0,4]
-Output: false
-Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
-</code></pre></div></div>
-
-<p><strong>Constraints:</strong></p>
-
+        <h3 id="issue">Issue</h3>
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">1 &lt;= nums.length &lt;= 104</code></li>
-  <li><code class="language-plaintext highlighter-rouge">0 &lt;= nums[i] &lt;= 105</code></li>
+  <li>diff-gaussian-rasterization window 상에서 빌드할 때 VS 2022 사용하면 오류 있음</li>
+  <li>https://github.com/ashawkey/diff-gaussian-rasterization</li>
+  <li>https://github.com/graphdeco-inria/diff-gaussian-rasterization</li>
+</ul>
+
+<h3 id="solution">Solution</h3>
+<ul>
+  <li>Visual Studio 2019 <a href="https://aka.ms/vs/16/release/vs_community.exe">Download link</a> 설치 및 x64 Native Tools Command Prompt for VS 2019 이용하여 빌드</li>
+  <li>MSVC v142 x64/x86 포함 후 재빌드</li>
 </ul>
 
 <hr />
 
-<h3 id="given-code">Given Code</h3>
+<h3 id="references">References</h3>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">canJump</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        
-</code></pre></div></div>
+<ul>
+  <li>
+    <p><a href="https://github.com/graphdeco-inria/gaussian-splatting/issues/865">3DGS issues 865</a></p>
+  </li>
+  <li>
+    <p><a href="https://striban.tistory.com/69">Download VS 2019</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.youtube.com/watch?v=UXtuigy_wYc">Getting Started With 3D Gaussian Splatting for Windows (Beginner Tutorial)</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/jonstephens85/gaussian-splatting-Windows/tree/main">3DGS Code (Windows version)</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/graphdeco-inria/gaussian-splatting">Original 3DGS Code</a></p>
+  </li>
+</ul>
 
-<hr />
-
-<h3 id="내-풀이">내 풀이</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">canJump</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="n">go</span> <span class="o">=</span> <span class="p">[</span><span class="bp">False</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">]</span>
-        <span class="nb">max</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">if</span> <span class="nf">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">True</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
-            <span class="nf">print</span><span class="p">(</span><span class="nb">max</span><span class="p">,</span> <span class="sh">'</span><span class="s"> / </span><span class="sh">'</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">nums</span><span class="p">))</span>
-            <span class="n">go</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">:</span>
-                <span class="nb">max</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="k">if</span> <span class="nb">max</span> <span class="o">&gt;=</span> <span class="nf">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="bp">True</span>
-            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">max</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">:</span>
-                <span class="k">return</span> <span class="bp">False</span>
-        <span class="k">return</span> <span class="bp">True</span>
-</code></pre></div></div>
-
-<p>max라는 변수에 최대 인덱스 놔서 풀었는데… 카테고리가 Dynamic Programming으로 되어있어서 이걸로 해야할거같은데…. 그냥 나중에 볼래</p>
 
         
       </section>
@@ -450,9 +426,11 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum jump 
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> 태그: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#algorithm" class="page__taxonomy-item" rel="tag">algorithm</a><span class="sep">, </span>
+      <a href="/tags/#gaussian-splating" class="page__taxonomy-item" rel="tag">Gaussian Splating</a><span class="sep">, </span>
     
-      <a href="/tags/#code" class="page__taxonomy-item" rel="tag">code</a>
+      <a href="/tags/#running-code" class="page__taxonomy-item" rel="tag">Running Code</a><span class="sep">, </span>
+    
+      <a href="/tags/#study" class="page__taxonomy-item" rel="tag">Study</a>
     
     </span>
   </p>
@@ -469,7 +447,7 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum jump 
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> 카테고리: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#algorithm-leetcode" class="page__taxonomy-item" rel="tag">Algorithm - LeetCode</a>
+      <a href="/categories/#study" class="page__taxonomy-item" rel="tag">Study</a>
     
     </span>
   </p>
@@ -477,7 +455,7 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum jump 
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2021-09-08">September 8, 2021</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> 업데이트:</strong> <time datetime="2025-07-30">July 30, 2025</time></p>
 
 
       </footer>
@@ -487,23 +465,22 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum jump 
     <h4 class="page__share-title">공유하기</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=LeetCode+%289%29+-++Jump+Game%28%ED%8C%8C%EC%9D%B4%EC%8D%AC%2C+python%29%20https%3A%2F%2Fhailsong.github.io%2Falgorithm%2520-%2520leetcode%2FLeetCode-9%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=Installing+Gaussian+Splatting+%28diff-gaussian-rasterization%2C+simple-knn%29%20https%3A%2F%2Fhailsong.github.io%2Fstudy%2FGaussian-Splatting-3%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhailsong.github.io%2Falgorithm%2520-%2520leetcode%2FLeetCode-9%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhailsong.github.io%2Fstudy%2FGaussian-Splatting-3%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fhailsong.github.io%2Falgorithm%2520-%2520leetcode%2FLeetCode-9%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fhailsong.github.io%2Fstudy%2FGaussian-Splatting-3%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="공유하기 LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/algorithm%20-%20leetcode/LeetCode-8/" class="pagination--pager" title="LeetCode (8) -  Odd Even Linked List(파이썬, python)
+      <a href="/study/Gaussian-Splatting-1/" class="pagination--pager" title="Run 3D Gaussian Splatting (1) - Windows에서 3D 가우시안 스플래팅 구동
 ">이전</a>
     
     
-      <a href="/algorithm%20-%20leetcode/LeetCode-10/" class="pagination--pager" title="LeetCode (10) -  Coin Change(파이썬, python)
-">다음</a>
+      <a href="#" class="pagination--pager disabled">다음</a>
     
   </nav>
 
@@ -539,46 +516,6 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum jump 
     <div class="page__related">
       <h4 class="page__related-title">참고</h4>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/study/Gaussian-Splatting-3/" rel="permalink">Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          최대 1 분 소요
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)
-</p>
-  </article>
-</div>
-
         
           
 
@@ -695,6 +632,46 @@ Explanation: You will always arrive at index 3 no matter what. Its maximum jump 
 
 
     <p class="archive__item-excerpt" itemprop="description">Run SCANimate Demo code
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/coursework%20-%202022-1/Probability-and-Statistics-Summary/" rel="permalink">Probability and Statistics (1) - Summary (CH.2 ~ CH.7)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          최대 1 분 소요
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Probability and Statistics summary for (Ch.2 ~ CH.7), KAIST CC511 관련 자료
 </p>
   </article>
 </div>

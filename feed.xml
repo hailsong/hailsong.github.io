@@ -1,4 +1,37 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://hailsong.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://hailsong.github.io/" rel="alternate" type="text/html" /><updated>2025-07-24T08:30:27+00:00</updated><id>https://hailsong.github.io/feed.xml</id><title type="html">Hail Song’s Blog</title><subtitle>Ph.D. Candidate at KAIST UVRlab, XR / Computer Vision / Computer Graphics Researcher</subtitle><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><entry><title type="html">Run 3D Gaussian Splatting (1) - Windows에서 3D 가우시안 스플래팅 구동</title><link href="https://hailsong.github.io/study/Gaussian-Splatting-1/" rel="alternate" type="text/html" title="Run 3D Gaussian Splatting (1) - Windows에서 3D 가우시안 스플래팅 구동" /><published>2023-11-14T00:00:00+00:00</published><updated>2023-11-14T17:06:01+00:00</updated><id>https://hailsong.github.io/study/Gaussian-Splatting-1</id><content type="html" xml:base="https://hailsong.github.io/study/Gaussian-Splatting-1/"><![CDATA[<h3 id="3d-gaussian-splatting-windows">3D Gaussian Splatting (Windows)</h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://hailsong.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://hailsong.github.io/" rel="alternate" type="text/html" /><updated>2025-07-30T01:57:31+00:00</updated><id>https://hailsong.github.io/feed.xml</id><title type="html">Hail Song’s Blog</title><subtitle>Ph.D. Candidate at KAIST UVRlab, XR / Computer Vision / Computer Graphics Researcher</subtitle><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><entry><title type="html">Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)</title><link href="https://hailsong.github.io/study/Gaussian-Splatting-3/" rel="alternate" type="text/html" title="Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)" /><published>2025-07-30T00:00:00+00:00</published><updated>2025-07-30T17:06:01+00:00</updated><id>https://hailsong.github.io/study/Gaussian-Splatting-3</id><content type="html" xml:base="https://hailsong.github.io/study/Gaussian-Splatting-3/"><![CDATA[<h3 id="issue">Issue</h3>
+<ul>
+  <li>diff-gaussian-rasterization window 상에서 빌드할 때 VS 2022 사용하면 오류 있음</li>
+  <li>https://github.com/ashawkey/diff-gaussian-rasterization</li>
+  <li>https://github.com/graphdeco-inria/diff-gaussian-rasterization</li>
+</ul>
+
+<h3 id="solution">Solution</h3>
+<ul>
+  <li>Visual Studio 2019 <a href="https://aka.ms/vs/16/release/vs_community.exe">Download link</a> 설치 및 x64 Native Tools Command Prompt for VS 2019 이용하여 빌드</li>
+  <li>MSVC v142 x64/x86 포함 후 재빌드</li>
+</ul>
+
+<hr />
+
+<h3 id="references">References</h3>
+
+<ul>
+  <li>
+    <p><a href="https://github.com/graphdeco-inria/gaussian-splatting/issues/865">3DGS issues 865</a></p>
+  </li>
+  <li>
+    <p><a href="https://striban.tistory.com/69">Download VS 2019</a></p>
+  </li>
+  <li>
+    <p><a href="https://www.youtube.com/watch?v=UXtuigy_wYc">Getting Started With 3D Gaussian Splatting for Windows (Beginner Tutorial)</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/jonstephens85/gaussian-splatting-Windows/tree/main">3DGS Code (Windows version)</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/graphdeco-inria/gaussian-splatting">Original 3DGS Code</a></p>
+  </li>
+</ul>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Study" /><category term="Study" /><category term="Gaussian Splating" /><category term="Running Code" /><summary type="html"><![CDATA[Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)]]></summary></entry><entry><title type="html">Run 3D Gaussian Splatting (1) - Windows에서 3D 가우시안 스플래팅 구동</title><link href="https://hailsong.github.io/study/Gaussian-Splatting-1/" rel="alternate" type="text/html" title="Run 3D Gaussian Splatting (1) - Windows에서 3D 가우시안 스플래팅 구동" /><published>2023-11-14T00:00:00+00:00</published><updated>2023-11-14T17:06:01+00:00</updated><id>https://hailsong.github.io/study/Gaussian-Splatting-1</id><content type="html" xml:base="https://hailsong.github.io/study/Gaussian-Splatting-1/"><![CDATA[<h3 id="3d-gaussian-splatting-windows">3D Gaussian Splatting (Windows)</h3>
 
 <p><a href="https://www.youtube.com/watch?v=UXtuigy_wYc">Getting Started With 3D Gaussian Splatting for Windows (Beginner Tutorial)</a></p>
 
@@ -1150,63 +1183,4 @@ Output: 2
 
 <p>잘 모르겠어서 https://velog.io/@bye9/LeetCode%ED%8C%8C%EC%9D%B4%EC%8D%AC-322.-Coin-Change 를 참고했다.</p>
 
-<p>Dynamic Programming을 이용해야하는데 감이 잘 안왔었다… d라는 배열을 만들어 최소 횟수를 체크하는것이 핵심. d[i]는 i원을 만들기 위한 최소 동전의 수 이다!</p>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Algorithm - LeetCode" /><category term="code" /><category term="algorithm" /><summary type="html"><![CDATA[python으로 leetcode 풀기, Coin Change]]></summary></entry><entry><title type="html">LeetCode (11) - Longest Increasing Subsequence(파이썬, python)</title><link href="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-11/" rel="alternate" type="text/html" title="LeetCode (11) - Longest Increasing Subsequence(파이썬, python)" /><published>2021-09-14T00:00:00+00:00</published><updated>2021-09-14T17:06:00+00:00</updated><id>https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-11</id><content type="html" xml:base="https://hailsong.github.io/algorithm%20-%20leetcode/LeetCode-11/"><![CDATA[<h3 id="-문제">❓ 문제</h3>
-
-<p>Given an integer array <code class="language-plaintext highlighter-rouge">nums</code>, return the length of the longest strictly increasing subsequence.</p>
-
-<p>A <strong>subsequence</strong> is a sequence that can be derived from an array by deleting some or no elements without changing the order of the remaining elements. For example, <code class="language-plaintext highlighter-rouge">[3,6,2,7]</code> is a subsequence of the array <code class="language-plaintext highlighter-rouge">[0,3,1,6,2,2,7]</code>.</p>
-
-<p><strong>Example 1:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: nums = [10,9,2,5,3,7,101,18]
-Output: 4
-Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
-</code></pre></div></div>
-
-<p><strong>Example 2:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: nums = [0,1,0,3,2,3]
-Output: 4
-</code></pre></div></div>
-
-<p><strong>Example 3:</strong></p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Input: nums = [7,7,7,7,7,7,7]
-Output: 1
-</code></pre></div></div>
-
-<p><strong>Constraints:</strong></p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">1 &lt;= nums.length &lt;= 2500</code></li>
-  <li><code class="language-plaintext highlighter-rouge">-104 &lt;= nums[i] &lt;= 104</code></li>
-</ul>
-
-<p><strong>Follow up:</strong> Can you come up with an algorithm that runs in <code class="language-plaintext highlighter-rouge">O(n log(n))</code> time complexity?</p>
-
-<hr />
-
-<h3 id="given-code">Given Code</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">lengthOfLIS</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        
-</code></pre></div></div>
-
-<hr />
-
-<h3 id="내-풀이">내 풀이</h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">lengthOfLIS</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="n">length</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nf">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-                    <span class="n">length</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span><span class="n">length</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">length</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="c1"># print(nums)
-</span>        <span class="c1"># print(length)
-</span>        <span class="nf">return</span><span class="p">(</span><span class="nf">max</span><span class="p">(</span><span class="n">length</span><span class="p">))</span>
-</code></pre></div></div>
-
-<p>왜 1트성공?? ㅎㅎㅎㅎ</p>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Algorithm - LeetCode" /><category term="code" /><category term="algorithm" /><summary type="html"><![CDATA[python으로 leetcode 풀기, Longest Increasing Subsequence]]></summary></entry></feed>
+<p>Dynamic Programming을 이용해야하는데 감이 잘 안왔었다… d라는 배열을 만들어 최소 횟수를 체크하는것이 핵심. d[i]는 i원을 만들기 위한 최소 동전의 수 이다!</p>]]></content><author><name>Hail Song</name><email>hail96@kaist.ac.kr</email></author><category term="Algorithm - LeetCode" /><category term="code" /><category term="algorithm" /><summary type="html"><![CDATA[python으로 leetcode 풀기, Coin Change]]></summary></entry></feed>

@@ -178,4 +178,10 @@ var store = [{
         "tags": ["Study","Gaussian Splating","Running Code"],
         "url": "/study/Gaussian-Splatting-1/",
         "teaser": null
+      },{
+        "title": "Installing Gaussian Splatting (diff-gaussian-rasterization, simple-knn)",
+        "excerpt":"Issue diff-gaussian-rasterization window 상에서 빌드할 때 VS 2022 사용하면 오류 있음 https://github.com/ashawkey/diff-gaussian-rasterization https://github.com/graphdeco-inria/diff-gaussian-rasterization Solution Visual Studio 2019 Download link 설치 및 x64 Native Tools Command Prompt for VS 2019 이용하여 빌드 MSVC v142 x64/x86 포함 후 재빌드 References 3DGS issues 865 Download VS 2019 Getting Started With 3D Gaussian Splatting...","categories": ["Study"],
+        "tags": ["Study","Gaussian Splating","Running Code"],
+        "url": "/study/Gaussian-Splatting-3/",
+        "teaser": null
       }]
