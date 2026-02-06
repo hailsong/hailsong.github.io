@@ -3,6 +3,50 @@ permalink: /publications/
 title: "Publications"
 ---
 
+
+# 2026
+
+## VRGaussianAvatar: Integrating 3D Gaussian Avatars into VR (TVCG 2026, IEEE VR 2026)  
+**Hail Song\***, Boram Yoon, Seokhwan Yang, Seoyoung Kang, Hyunwoo Kim, Hannes Metzmacher, Woontack Woo  
+<center><img src="/assets/img/pub_2026_1.png" width="80%" height="80%"></center>  
+
+[Project](https://vrgaussianavatar.github.io/) / [Preprint](https://arxiv.org/abs/2602.01674)
+
+----
+
+## OFERA: Blendshape-driven 3D Gaussian Control for Occluded Facial Expression to Realistic Avatars in VR (TVCG 2026, IEEE VR 2026)  
+Seokhwan Yang, Boram Yoon, Seoyoung Kang, **Hail Song**, Woontack Woo  
+<center><img src="/assets/img/pub_2026_2.png" width="80%" height="80%"></center>  
+
+[Project](https://ysshwan147.github.io/projects/ofera/) / [Preprint](https://arxiv.org/abs/2602.01748)
+
+----
+
+## Streamlined Facial Data Collection based on Utterance and Emotional Data for Human-to-Avatar Reconstruction (TVCG 2026, IEEE VR 2026)  
+Seoyoung Kang, Seokhwan Yang, **Hail Song**, Boram Yoon, Jaehoon Kim, Kangsoo Kim, Woontack Woo  
+<center><img src="/assets/img/pub_2026_3.png" width="80%" height="80%"></center>  
+
+[Preprint](https://arxiv.org/abs/2602.01729)
+
+----
+
+## SceneLinker: Compositional 3D Scene Generation via Semantic Scene Graph from RGB Sequences (TVCG 2026, IEEE VR 2026)  
+Seok-Young Kim, Donghyeon Kim, Woojin Cho, **Hail Song**, Seoyoung Kang, Woontack Woo  
+<center><img src="/assets/img/pub_2026_4.png" width="80%" height="80%"></center>  
+
+[Project](https://scenelinker2026.github.io/) / [Preprint](https://arxiv.org/abs/2602.02974)
+
+----
+
+## HMD-only Controllable 3D Gaussian Avatars in VR: Face and Full-body Demonstration (IEEE VRW 2026, Research Demo)  
+Seokhwan Yang, **Hail Song**, Woontack Woo   
+
+----
+
+## VR Zen Garden: Designing a Virtual Environment for Stress Relief (IEEE VRW 2026, Research Demo)  
+**Hail Song**, Jinseok Hong, Seonji Kim, Kyung Taek Oh, Woontack Woo, Sungyoung Kim  
+<center><img src="/assets/img/pub_2026_6.png" width="80%" height="80%"></center>  
+
 ----
 
 # 2025
