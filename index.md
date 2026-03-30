@@ -7,13 +7,17 @@ permalink: /
 ## 👤 About Me
 
 
-<p align="center">
-  <img src="/assets/images/shi.png" alt="Hail Song" width="180" style="border-radius: 12px;"/>
+<!-- <video width="100%" autoplay loop muted playsinline>
+  <source src="/assets/videos/vrga_hi.mp4" type="video/mp4">
+</video> -->
+<p style="font-size: 0.95rem; color: #666; margin-top: 0.5rem;">
+  My avatar rendered with <a href="https://vrgaussianavatar.github.io/" target="_blank" rel="noopener noreferrer">VRGaussianAvatar</a>, presented at IEEE VR 2026 (TVCG Journal Track).
 </p>
+
 
 **Nice to meet you!** I'm Hail Song, a Ph.D. student at the [UVR Lab](https://uvrlab.org/), KAIST [Graduate School of Culture Technology](https://ct.kaist.ac.kr/), under the supervision of Prof. Woontack Woo (with a minor in the [Graduate School of Metaverse](https://meta.kaist.ac.kr/)).
 
-My research centers on the automatic generation of lifelike 3D avatars from images or videos, with a particular focus on creating accessible and realistic digital representations for AR/VR and metaverse applications. I aim to democratize avatar creation technology, enabling everyone to express themselves equally in immersive digital spaces.
+My research lies at the intersection of neural rendering, 3D human avatar reconstruction, and immersive XR systems. I develop both reconstruction methods and real-time XR avatar systems for creating and deploying high-fidelity 3D avatars from accessible inputs such as single images, monocular videos, and sparse egocentric signals. My work spans single-image head avatar generation, full-body avatar reconstruction, and real-time 3D Gaussian avatar systems for immersive XR.
 
 Previously, I worked as a computer vision engineer at InBody, and I have hands-on experience in C++, Python, and building end-to-end AR/VR systems. I’m deeply interested in bridging cutting-edge research and real-world application, especially in the context of extended reality (XR).
 
