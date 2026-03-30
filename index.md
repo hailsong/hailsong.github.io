@@ -7,12 +7,6 @@ permalink: /
 ## 👤 About Me
 
 
-<video width="100%" autoplay loop muted playsinline>
-  <source src="/assets/videos/vrga_hi.mp4" type="video/mp4">
-</video>
-<p style="font-size: 0.95rem; color: #666; margin-top: 0.5rem;">
-  My avatar rendered with <a href="https://vrgaussianavatar.github.io/" target="_blank" rel="noopener noreferrer">VRGaussianAvatar</a>, presented at IEEE VR 2026 (TVCG Journal Track).
-</p>
 
 
 **Nice to meet you!** I'm Hail Song, a Ph.D. student at the [UVR Lab](https://uvrlab.org/), KAIST [Graduate School of Culture Technology](https://ct.kaist.ac.kr/), under the supervision of Prof. Woontack Woo (with a minor in the [Graduate School of Metaverse](https://meta.kaist.ac.kr/)).
@@ -22,6 +16,14 @@ My research lies at the intersection of neural rendering, 3D human avatar recons
 Previously, I worked as a computer vision engineer at InBody, and I have hands-on experience in C++, Python, and building end-to-end AR/VR systems. I’m deeply interested in bridging cutting-edge research and real-world application, especially in the context of extended reality (XR).
 
 If you're curious about my work or interested in collaboration, feel free to get in touch!
+
+
+
+<video width="100%" autoplay loop muted playsinline>
+  <source src="/assets/videos/vrga_hi.mp4" type="video/mp4">
+</video>
+
+My avatar rendered with [VRGaussianAvatar](https://vrgaussianavatar.github.io/), presented at IEEE VR 2026 (TVCG Journal Track).
 
 
 <video width="100%" autoplay loop muted playsinline>
