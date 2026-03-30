@@ -7,9 +7,9 @@ permalink: /
 ## 👤 About Me
 
 
-<!-- <video width="100%" autoplay loop muted playsinline>
+<video width="100%" autoplay loop muted playsinline>
   <source src="/assets/videos/vrga_hi.mp4" type="video/mp4">
-</video> -->
+</video>
 <p style="font-size: 0.95rem; color: #666; margin-top: 0.5rem;">
   My avatar rendered with <a href="https://vrgaussianavatar.github.io/" target="_blank" rel="noopener noreferrer">VRGaussianAvatar</a>, presented at IEEE VR 2026 (TVCG Journal Track).
 </p>
